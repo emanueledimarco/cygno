@@ -20,8 +20,6 @@ setup(
     scripts=['bin/cygno_repo', 'bin/cygno_runs', 'bin/cygno_mid2root', 'bin/cygno_his2root'],
     python_requires='>=3.5',
     install_requires=[
-    'boto3',
-    'boto3sts',
     'requests',
     'pandas',
     'botocore',

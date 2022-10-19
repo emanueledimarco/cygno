@@ -7,7 +7,7 @@ setup(
     name='cygno',                                            # package name
     author="Giovanni Mazzitelli",
     author_email="giovanni.mazzitelli@lnf.infn.it",
-    version='1.0.6',                                         # version
+    version='1.0.7',                                         # version
     description='Cygno Experiment Python Packge',            # short description
     url='https://github.com/CYGNUS-RD/cygno',                # package URL
     packages=find_packages(),
@@ -17,7 +17,7 @@ setup(
         "Development Status :: 3 - Alpha",
         "Operating System :: OS Independent",
     ],
-    scripts=['bin/cygno_repo', 'bin/cygno_runs', 'bin/cygno_mid2root', 'bin/cygno_his2root', 'bin/cygno_s32tape'],
+    scripts=['bin/cygno_repo', 'bin/cygno_runs', 'bin/cygno_mid2root', 'bin/cygno_his2root'],
     python_requires='>=3.5',
     install_requires=[
     'requests',

@@ -55,11 +55,11 @@ def mid_file(run, tag='LNGS', cloud=False, verbose=False):
 
 
 
-def backet_list(tag, bucket='cygno-sim', session="infncloud-iam", verbose=False):
+def backet_list(tag, bucket='cygno-sim', session="infncloud-iam", filearray=False, verbose=False):
     import boto3
     from boto3sts import credentials as creds
     # from mypy_boto3_sts import credentials as creds
-
+    
     endpoint='https://minio.cloud.infn.it/'
     version='s3v4'
     key = tag+'/'
@@ -67,6 +67,7 @@ def backet_list(tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
     aws_session = creds.assumed_session(session)
     s3 = aws_session.client('s3', endpoint_url=endpoint,
                             config=boto3.session.Config(signature_version=version),verify=True)
+    lsarray=[]
     IsTruncated = True
     NextMarker  = ''
     while IsTruncated:
@@ -75,11 +76,15 @@ def backet_list(tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
         contents = response['Contents']
         for i, file in enumerate(contents):
             if key in str(file['Key']):
-                print("{0:20s} {1:s}".format(str(file['LastModified']).split(".")[0].split("+")[0], file['Key']))
+                if filearray:
+                    lsarray.append(file['Key'])
+                else:
+                    print("{0:20s} {1:s}".format(str(file['LastModified']).split(".")[0].split("+")[0], file['Key']))
         if IsTruncated:
             Marker      = response['Marker']
             NextMarker  = response['NextMarker']
         if verbose: print("backet troncato? "+str(IsTruncated),"Marker: ", Marker,"NextMarker: ", NextMarker)
+        return lsarray
 
 def obj_put(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False):
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html#uploading-files

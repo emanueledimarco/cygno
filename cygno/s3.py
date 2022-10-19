@@ -84,7 +84,8 @@ def backet_list(tag, bucket='cygno-sim', session="infncloud-iam", filearray=Fals
             Marker      = response['Marker']
             NextMarker  = response['NextMarker']
         if verbose: print("backet troncato? "+str(IsTruncated),"Marker: ", Marker,"NextMarker: ", NextMarker)
-        return lsarray
+    # return array 
+    return lsarray
 
 def obj_put(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False):
     # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html#uploading-files

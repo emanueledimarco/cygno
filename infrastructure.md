@@ -61,7 +61,8 @@ Two VM offer acces to cloud infrastrucure via web services based on jupyter note
   * tag [gmazzitelli](https://github.com/gmazzitelli/dodas-docker-images) are realisesed fork of official project under [development](https://github.com/gmazzitelli/cloud_docker_dev) and test
 
 ### Tag v1.0.17 ###
-  --> python 3.9.10 (not deafult), emacs, screen, root_numpy, uproot, pydot, tensorflow, opencv-python, graphviz
+  - python 3.9.10 (not deafult), emacs, screen, root_numpy, uproot, pydot, tensorflow, opencv-python, graphviz
+  - [full packege list](https://raw.githubusercontent.com/CYGNUS-RD/cygno/main/requirements.txt)
 ### Tag < v1.0.17 ###
   - ROOT 6.24/06
   - Python 2/3.6 ([Default package list notebook >= 16](https://raw.githubusercontent.com/CYGNUS-RD/cygno/main/img/PackageListV16.txt))

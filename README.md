@@ -165,7 +165,6 @@ tool:
 
 ### logbook 
 * read_cygno_logbook(verbose=False) 		ruturn pandas db old google sheet logbook info
-* read_cygno_sql_logbook(verbose=False)		return pandas db sql logbook info
 * run_info_logbook(run, sql=True, verbose=True)	return pandas db google/sql run [int] info
 
 ### s3 repo

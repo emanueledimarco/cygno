@@ -57,7 +57,7 @@ def open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False):
         else:
             raise myError("openFileError: "+path+fname+" do not exist") 
     else:
-        filetmp = cmd.cache_file(fname, cachedir=path, verbose=verbose)
+        filetmp = cmd.cache_file(fname, cachedir='/tmp/', verbose=verbose)
         f = midas.file_reader.MidasFile(filetmp)  
     return f
 

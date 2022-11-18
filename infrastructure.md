@@ -1,7 +1,7 @@
 # Computing infrastrcture
 The CYGNO exepriment develop a facility based on the [INFN cloud](https://www.cloud.infn.it/) to host:
 - data experiment storage ([S3 based](https://it.wikipedia.org/wiki/Amazon_S3))
-- tape backup storage
+- tape backup storage ([status](https://t1metria.cr.cnaf.infn.it/d/ZArHZvEMz/storage-usage-per-experiment?orgId=18&var-exp=cygn&var-vo=CYGNO&from=now-2d&to=now))
 - notebook web interface with python and root kernles, bach resources
 - bach resources accesible via condor queues
 

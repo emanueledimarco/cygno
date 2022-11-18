@@ -67,3 +67,38 @@ def cache_file(url, cachedir='/tmp/', verbose=False):
         if verbose: sys.stderr.write('file '+tmpname+' cached')
         
     return tmpname
+
+#############
+## required to connect  
+##
+# import mysql.connector
+# import os
+# connection = mysql.connector.connect(
+#   host=os.environ['MYSQL_IP'],
+#   user=os.environ['MYSQL_USER'],
+#   password=os.environ['MYSQL_PASSWORD'],
+#   database=os.environ['MYSQL_DATABASE'],
+#   port=int(os.environ['MYSQL_PORT'])
+# )
+###############
+
+def push_panda_table_sql(connection, table_name, df):
+    
+    mycursor=connection.cursor()
+    mycursor.execute("SHOW TABLES LIKE '"+table_name+"'")
+    result = mycursor.fetchone()
+    if not result:
+        cols = "`,`".join([str(i) for i in df.columns.tolist()])
+        db_to_crete = "CREATE TABLE `"+table_name+"` ("+' '.join(["`"+x+"` REAL," for x in df.columns.tolist()])[:-1]+")"
+        print ("[Table {:s} created into SQL Server]".format(table_name))
+        mycursor = connection.cursor()
+        mycursor.execute(db_to_crete)
+
+    cols = "`,`".join([str(i) for i in df.columns.tolist()])
+
+    for i,row in df.iterrows():
+        sql = "INSERT INTO `"+table_name+"` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+        mycursor.execute(sql, tuple(row.astype(str)))
+        connection.commit()
+
+    mycursor.close()

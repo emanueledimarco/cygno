@@ -290,6 +290,9 @@ def ped_(run, path='./ped/', tag = 'LAB', posix=False, min_image_to_read = 0, ma
         print("DONE OUTPUT maen file: {:s} sigma file: {:s}".format(fileoutm, fileouts))
         return m_image, s_image    
 
+#
+# log book
+#
 def read_cygno_logbook(sql=True, verbose=False):
     import pandas as pd
     import numpy as np
@@ -524,3 +527,20 @@ def img_proj(img, vmin, vmax, log=False):
     if log: ax[1,1].set_yscale('log')
     plt.show()
 
+####
+# Storage
+###
+def update_runlog_replica_status(run_number, storage, status=-1, verbose=False):
+    if storage=="local":
+        storage="storage_local_status"
+    elif storage=="cloud":
+        storage="storage_cloud_status"
+    elif storage=="tape":
+        storage="storage_tape_status"
+    else:
+        return 1
+    if verbose: print("Storage: "+storage)
+    return cmd.update_sql_value(connection, table_name="Runlog", row_element="run_number", 
+                     row_element_condition=run_number, 
+                     colum_element=storage, value=status, 
+                     verbose=verbose)

@@ -52,12 +52,12 @@ def open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False):
     fname = s3.mid_file(run, tag=tag, cloud=cloud, verbose=verbose)
     if verbose: print(fname)
     if not cloud:
-        if os.path.exists(path+fname):
-            f = midas.file_reader.MidasFile(path+fname)
+        if os.path.exists(path+tag+fname):
+            f = midas.file_reader.MidasFile(path+tag+fname)
         else:
-            raise myError("openFileError: "+path+fname+" do not exist") 
+            raise myError("openFileError: "+path+tag+fname+" do not exist") 
     else:
-        filetmp = cmd.cache_file(fname, cachedir=path, verbose=verbose)
+        filetmp = cmd.cache_file(fname, cachedir='/tmp/', verbose=verbose)
         f = midas.file_reader.MidasFile(filetmp)  
     return f
 

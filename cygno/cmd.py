@@ -68,23 +68,22 @@ def cache_file(url, cachedir='/tmp/', verbose=False):
         
     return tmpname
 
-#############
-## required to connect  
-##
-#
-# import mysql.connector
-# import os
-# connection = mysql.connector.connect(
-#   host=os.environ['MYSQL_IP'],
-#   user=os.environ['MYSQL_USER'],
-#   password=os.environ['MYSQL_PASSWORD'],
-#   database=os.environ['MYSQL_DATABASE'],
-#   port=int(os.environ['MYSQL_PORT'])
-# )
-###############
+# SQL and File storage
 
+def file_as_bytes(file):
+    with file:
+        return file.read()
+    
+def file_md5sum(file):
+    import hashlib
+    try:
+        return hashlib.md5(file_as_bytes(open(file, 'rb'))).hexdigest()
+    except:
+        print ("md5sum error", file)
+        return False
+    
 def push_panda_table_sql(connection, table_name, df):
-    import mysql.connector
+    
     mycursor=connection.cursor()
     mycursor.execute("SHOW TABLES LIKE '"+table_name+"'")
     result = mycursor.fetchone()
@@ -103,14 +102,27 @@ def push_panda_table_sql(connection, table_name, df):
         connection.commit()
 
     mycursor.close()
+
     
-##
-# MD5 checksum
-##
-def file_as_bytes(file):
-    with file:
-        return file.read()
-file_path="/data01/data/run00759.mid.gz"
-def md5sum(file_path):
-    import hashlib
-    return hashlib.md5(file_as_bytes(open(full_path, 'rb'))).hexdigest()
+def update_sql_value(connection, table_name, row_element, row_element_condition, 
+                     colum_element, value, verbose=False):
+    if isinstance(value, str):
+        svalue="\""+value+"\""
+    else:
+        svalue=str(value)
+    if isinstance(row_element_condition, str):
+        scondition="\""+row_element_condition+"\""
+    else:
+        scondition=str(row_element_condition)
+    sql = "UPDATE `"+table_name+"` SET `"+colum_element+"` = "+ \
+    svalue+" WHERE `"+row_element+"` = "+scondition+";"
+    if verbose: print(sql)
+    try:
+        mycursor = connection.cursor()
+        mycursor.execute(sql)
+        connection.commit()
+        if verbose: print(mycursor.rowcount, "Update done")
+        mycursor.close()
+        return 0
+    except:
+        return 1

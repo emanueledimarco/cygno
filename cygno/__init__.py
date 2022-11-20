@@ -528,9 +528,38 @@ def img_proj(img, vmin, vmax, log=False):
     plt.show()
 
 ####
-# Storage
+# Storage & SQL
 ###
-def update_runlog_replica_status(run_number, storage, status=-1, verbose=False):
+def daq_sql_cennection(verbose=False):
+    import mysql.connector
+    import os
+    try:
+        connection = mysql.connector.connect(
+          host=os.environ['MYSQL_IP'],
+          user=os.environ['MYSQL_USER'],
+          password=os.environ['MYSQL_PASSWORD'],
+          database=os.environ['MYSQL_DATABASE'],
+          port=int(os.environ['MYSQL_PORT'])
+        )
+        if verbose: print(connection)
+        return connection
+    except:
+        return False
+    
+def daq_update_runlog_replica_checksum(connection, run_number, md5sum, verbose=False):
+    if verbose: print("md5sum: ", md5sum)
+    return update_sql_value(connection, table_name="Runlog", row_element="run_number", 
+                     row_element_condition=run_number, 
+                     colum_element="file_checksum", value=md5sum, 
+                     verbose=verbose)
+def daq_update_runlog_replica_tag(connection, run_number, TAG, verbose=False):
+    if verbose: print("TAG: ", TAG)
+    return update_sql_value(connection, table_name="Runlog", row_element="run_number", 
+                     row_element_condition=run_number, 
+                     colum_element="file_s3_tag", value=TAG, 
+                     verbose=verbose)
+
+def daq_update_runlog_replica_status(connection, run_number, storage, status=-1, verbose=False):
     if storage=="local":
         storage="storage_local_status"
     elif storage=="cloud":
@@ -540,23 +569,7 @@ def update_runlog_replica_status(run_number, storage, status=-1, verbose=False):
     else:
         return 1
     if verbose: print("Storage: "+storage)
-    return cmd.update_sql_value(connection, table_name="Runlog", row_element="run_number", 
+    return update_sql_value(connection, table_name="Runlog", row_element="run_number", 
                      row_element_condition=run_number, 
                      colum_element=storage, value=status, 
                      verbose=verbose)
-#############
-## required to sql connect  
-#############
-def daq_sql_cennection():
-    import mysql.connector
-    import os
-    try:
-        return connection = mysql.connector.connect(
-          host=os.environ['MYSQL_IP'],
-          user=os.environ['MYSQL_USER'],
-          password=os.environ['MYSQL_PASSWORD'],
-          database=os.environ['MYSQL_DATABASE'],
-          port=int(os.environ['MYSQL_PORT'])
-        )
-    except:
-        return False

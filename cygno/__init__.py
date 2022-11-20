@@ -548,13 +548,13 @@ def daq_sql_cennection(verbose=False):
     
 def daq_update_runlog_replica_checksum(connection, run_number, md5sum, verbose=False):
     if verbose: print("md5sum: ", md5sum)
-    return update_sql_value(connection, table_name="Runlog", row_element="run_number", 
+    return cmd.update_sql_value(connection, table_name="Runlog", row_element="run_number", 
                      row_element_condition=run_number, 
                      colum_element="file_checksum", value=md5sum, 
                      verbose=verbose)
 def daq_update_runlog_replica_tag(connection, run_number, TAG, verbose=False):
     if verbose: print("TAG: ", TAG)
-    return update_sql_value(connection, table_name="Runlog", row_element="run_number", 
+    return cmd.update_sql_value(connection, table_name="Runlog", row_element="run_number", 
                      row_element_condition=run_number, 
                      colum_element="file_s3_tag", value=TAG, 
                      verbose=verbose)
@@ -569,7 +569,7 @@ def daq_update_runlog_replica_status(connection, run_number, storage, status=-1,
     else:
         return 1
     if verbose: print("Storage: "+storage)
-    return update_sql_value(connection, table_name="Runlog", row_element="run_number", 
+    return cmd.update_sql_value(connection, table_name="Runlog", row_element="run_number", 
                      row_element_condition=run_number, 
                      colum_element=storage, value=status, 
                      verbose=verbose)

@@ -544,3 +544,19 @@ def update_runlog_replica_status(run_number, storage, status=-1, verbose=False):
                      row_element_condition=run_number, 
                      colum_element=storage, value=status, 
                      verbose=verbose)
+#############
+## required to sql connect  
+#############
+def daq_sql_cennection():
+    import mysql.connector
+    import os
+    try:
+        return connection = mysql.connector.connect(
+          host=os.environ['MYSQL_IP'],
+          user=os.environ['MYSQL_USER'],
+          password=os.environ['MYSQL_PASSWORD'],
+          database=os.environ['MYSQL_DATABASE'],
+          port=int(os.environ['MYSQL_PORT'])
+        )
+    except:
+        return False

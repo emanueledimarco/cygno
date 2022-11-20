@@ -71,6 +71,7 @@ def cache_file(url, cachedir='/tmp/', verbose=False):
 #############
 ## required to connect  
 ##
+#
 # import mysql.connector
 # import os
 # connection = mysql.connector.connect(
@@ -83,7 +84,7 @@ def cache_file(url, cachedir='/tmp/', verbose=False):
 ###############
 
 def push_panda_table_sql(connection, table_name, df):
-    
+    import mysql.connector
     mycursor=connection.cursor()
     mycursor.execute("SHOW TABLES LIKE '"+table_name+"'")
     result = mycursor.fetchone()
@@ -102,3 +103,14 @@ def push_panda_table_sql(connection, table_name, df):
         connection.commit()
 
     mycursor.close()
+    
+##
+# MD5 checksum
+##
+def file_as_bytes(file):
+    with file:
+        return file.read()
+file_path="/data01/data/run00759.mid.gz"
+def md5sum(file_path):
+    import hashlib
+    return hashlib.md5(file_as_bytes(open(full_path, 'rb'))).hexdigest()

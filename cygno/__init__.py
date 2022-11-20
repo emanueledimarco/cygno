@@ -559,6 +559,14 @@ def daq_update_runlog_replica_tag(connection, run_number, TAG, verbose=False):
                      colum_element="file_s3_tag", value=TAG, 
                      verbose=verbose)
 
+def daq_update_runlog_replica_size(connection, run_number, size, verbose=False):
+    if verbose: print("size: ", size)
+    return cmd.update_sql_value(connection, table_name="Runlog", row_element="run_number", 
+                     row_element_condition=run_number, 
+                     colum_element="file_size", value=size, 
+                     verbose=verbose)
+
+
 def daq_update_runlog_replica_status(connection, run_number, storage, status=-1, verbose=False):
     if storage=="local":
         storage="storage_local_status"

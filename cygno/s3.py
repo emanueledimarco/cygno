@@ -55,7 +55,7 @@ def mid_file(run, tag='LNGS', cloud=False, verbose=False):
 
 
 
-def backet_list(tag, bucket='cygno-sim', session="infncloud-iam", filearray=False, verbose=False):
+def bucket_list(tag, bucket='cygno-sim', session="infncloud-iam", filearray=False, verbose=False):
     import boto3
     from boto3sts import credentials as creds
     # from mypy_boto3_sts import credentials as creds
@@ -63,7 +63,7 @@ def backet_list(tag, bucket='cygno-sim', session="infncloud-iam", filearray=Fals
     endpoint='https://minio.cloud.infn.it/'
     version='s3v4'
     key = tag+'/'
-    if verbose: print(">> listing", tag, "on backet", bucket, "for session",  session, "\n")
+    if verbose: print(">> listing", tag, "on bucket", bucket, "for session",  session, "\n")
     aws_session = creds.assumed_session(session)
     s3 = aws_session.client('s3', endpoint_url=endpoint,
                             config=boto3.session.Config(signature_version=version),verify=True)
@@ -83,7 +83,7 @@ def backet_list(tag, bucket='cygno-sim', session="infncloud-iam", filearray=Fals
         if IsTruncated:
             Marker      = response['Marker']
             NextMarker  = response['NextMarker']
-        if verbose: print("backet troncato? "+str(IsTruncated),"Marker: ", Marker,"NextMarker: ", NextMarker)
+        if verbose: print("bucket troncato? "+str(IsTruncated),"Marker: ", Marker,"NextMarker: ", NextMarker)
     # return array 
     return lsarray
 
@@ -100,7 +100,7 @@ def obj_put(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=
     endpoint='https://minio.cloud.infn.it/'
     version='s3v4'
     #
-    if verbose: print(">> upload", filename,"taged", tag, "on backet", bucket, "for session",  session, "\n")
+    if verbose: print(">> upload", filename,"taged", tag, "on bucket", bucket, "for session",  session, "\n")
     aws_session = creds.assumed_session(session)
     s3 = aws_session.client('s3', endpoint_url=endpoint, config=boto3.session.Config(signature_version=version),verify=True)
 
@@ -143,7 +143,7 @@ def obj_get(filein, fileout, tag, bucket='cygno-sim', session="infncloud-iam", v
     endpoint='https://minio.cloud.infn.it/'
     version='s3v4'
     #
-    if verbose: print(">> get", filein, fileout,"taged", tag, "on backet", bucket, "for session",  session, "\n")
+    if verbose: print(">> get", filein, fileout,"taged", tag, "on bucket", bucket, "for session",  session, "\n")
     aws_session = creds.assumed_session(session)
     s3 = aws_session.client('s3', endpoint_url=endpoint, config=boto3.session.Config(signature_version=version),verify=True)
 
@@ -183,7 +183,7 @@ def obj_size(filein, tag, bucket='cygno-sim', session="infncloud-iam", verbose=F
     endpoint='https://minio.cloud.infn.it/'
     version='s3v4'
     #
-    if verbose: print(">> get", filein,"taged", tag, "on backet", bucket, "for session",  session, "\n")
+    if verbose: print(">> get", filein,"taged", tag, "on bucket", bucket, "for session",  session, "\n")
     aws_session = creds.assumed_session(session)
     s3 = aws_session.client('s3', endpoint_url=endpoint, config=boto3.session.Config(signature_version=version),verify=True)
 
@@ -215,7 +215,7 @@ def obj_rm(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=F
     endpoint='https://minio.cloud.infn.it/'
     version='s3v4'
     #
-    if verbose: print(">> get", filein, fileout,"taged", tag, "on backet", bucket, "for session",  session, "\n")
+    if verbose: print(">> get", filein, fileout,"taged", tag, "on bucket", bucket, "for session",  session, "\n")
     aws_session = creds.assumed_session(session)
     s3 = aws_session.client('s3', endpoint_url=endpoint, config=boto3.session.Config(signature_version=version),verify=True)
 

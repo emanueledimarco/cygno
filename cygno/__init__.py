@@ -581,3 +581,18 @@ def daq_update_runlog_replica_status(connection, run_number, storage, status=-1,
                      row_element_condition=run_number, 
                      colum_element=storage, value=status, 
                      verbose=verbose)
+
+def daq_read_runlog_replica_status(connection, run_number, storage, verbose=False):
+    if storage=="local":
+        storage="storage_local_status"
+    elif storage=="cloud":
+        storage="storage_cloud_status"
+    elif storage=="tape":
+        storage="storage_tape_status"
+    else:
+        return 1
+    if verbose: print("Storage: "+storage)
+    return read_sql_value(connection, table_name="Runlog", row_element="run_number", 
+                     row_element_condition=str(run_number), 
+                     colum_element=storage, 
+                     verbose=verbose)

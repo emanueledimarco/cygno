@@ -215,7 +215,7 @@ def obj_rm(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=F
     endpoint='https://minio.cloud.infn.it/'
     version='s3v4'
     #
-    if verbose: print(">> get", filein, fileout,"taged", tag, "on bucket", bucket, "for session",  session, "\n")
+    if verbose: print(">> get", filein, fileout,"taged", tag, "on backet", bucket, "for session",  session, "\n")
     aws_session = creds.assumed_session(session)
     s3 = aws_session.client('s3', endpoint_url=endpoint, config=boto3.session.Config(signature_version=version),verify=True)
 

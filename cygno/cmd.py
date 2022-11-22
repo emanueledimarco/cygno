@@ -125,4 +125,19 @@ def update_sql_value(connection, table_name, row_element, row_element_condition,
         mycursor.close()
         return 0
     except:
-        return 1
+        return -2
+   
+def read_sql_value(connection, table_name, row_element, row_element_condition, 
+                     colum_element, verbose=False):
+    sql = "SELECT `"+colum_element+"` FROM `"+table_name+"` WHERE `"+row_element+"` = "+row_element_condition+";"
+    #SELECT `storage_tape_status` FROM `Runlog` WHERE `run_number` = 1024;
+    if verbose: print(sql)
+    try:
+        mycursor = connection.cursor()
+        mycursor.execute(sql)
+        value = mycursor.fetchone()
+        if verbose: print(mycursor.rowcount, "Update done")
+        mycursor.close()
+        return value
+    except:
+        return -2

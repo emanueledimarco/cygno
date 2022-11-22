@@ -592,7 +592,7 @@ def daq_read_runlog_replica_status(connection, run_number, storage, verbose=Fals
     else:
         return -2
     if verbose: print("Storage: "+storage)
-    return read_sql_value(connection, table_name="Runlog", row_element="run_number", 
+    return cmd.read_sql_value(connection, table_name="Runlog", row_element="run_number", 
                      row_element_condition=str(run_number), 
                      colum_element=storage, 
                      verbose=verbose)

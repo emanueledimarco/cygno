@@ -138,6 +138,6 @@ def read_sql_value(connection, table_name, row_element, row_element_condition,
         value = mycursor.fetchone()
         if verbose: print(mycursor.rowcount, "Update done")
         mycursor.close()
-        return value
+        return value[0]
     except:
         return -2

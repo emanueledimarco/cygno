@@ -606,5 +606,9 @@ def daq_not_on_tape_runs(connection, verbose=False):
     value = mycursor.fetchall()
     if verbose: print(mycursor.rowcount)
     mycursor.close()
-    return np.array(list(zip(*value))[0])
+    try:
+        runs = np.array(list(zip(*value))[0])
+    else:
+        runs = []
+    return runs
 

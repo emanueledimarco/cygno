@@ -608,7 +608,7 @@ def daq_not_on_tape_runs(connection, verbose=False):
     mycursor.close()
     try:
         runs = np.array(list(zip(*value))[0])
-    else:
+    except:
         runs = []
     return runs
 

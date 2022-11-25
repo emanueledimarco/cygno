@@ -4,8 +4,10 @@ The CYGNO exepriment develop a facility based on the [INFN cloud](https://www.cl
 - tape backup storage ([status](https://t1metria.cr.cnaf.infn.it/d/ZArHZvEMz/storage-usage-per-experiment?orgId=18&var-exp=cygn&var-vo=CYGNO&from=now-2d&to=now))
 - notebook web interface with python and root kernles, bach resources ([status](https://90.147.174.175:3000/login))
 - bach resources accesible via condor queues
+[Cloud resources](https://monitoring.cloud.infn.it:3000/d/u1sBcydVk/cygno-cloud-capacities?orgId=1)
 
 Moreover, computing resources are available at LNF and LNGS (Cygno VM login and U-LITE nodes) and two [DAQ server](https://drive.google.com/file/d/1kEzvfJK7WSXK2Y1vfEwRqcH9uSmoYsXl/view?usp=sharing) equipped with GPU
+
 
 ### Signup on computing ressources (needed for all resources: CLOUD, LNGS, LNF)
 * if you are not associeted/hosted/employed of INFN plese signup on: https://signup.app.infn.it/ (tips for foreign users see below)

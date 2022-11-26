@@ -10,16 +10,21 @@ def  main(fun, key, url, bucket, session, verbose):
     session = creds.assumed_session(session, endpoint=url,verify=True)
     s3 = session.client('s3', endpoint_url=url, config=boto3.session.Config(signature_version='s3v4'), verify=True)
     if fun == "get":
-        url = s3.generate_presigned_url('get_object', 
+        url_out = s3.generate_presigned_url('get_object', 
                                         Params={'Bucket': bucket,
                                                 'Key': key}, 
                                         ExpiresIn=3600)
     elif fun == "put":
-        url = s3.generate_presigned_post(bucket, key, ExpiresIn=3600)
+        url_out = s3.generate_presigned_post(bucket, key, ExpiresIn=3600)
     else:
-        url = ''
+        url_out = ''
 
     print("Destination", url)
+    
+    # with open('stageout-file-1.root', 'rb') as f:
+    #    files = {'file': ('stageout-file-1.root', f)}
+    #    http_response = requests.post(url_out['url'], data=url_out['fields'], files=files)
+
 
 if __name__ == "__main__":
     from optparse import OptionParser

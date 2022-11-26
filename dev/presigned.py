@@ -19,7 +19,7 @@ def  main(fun, key, url, bucket, session, verbose):
     else:
         url_out = ''
 
-    print("Destination", url)
+    print("Destination", url_out)
     
     # with open('stageout-file-1.root', 'rb') as f:
     #    files = {'file': ('stageout-file-1.root', f)}

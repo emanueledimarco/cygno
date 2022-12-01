@@ -81,6 +81,17 @@ def file_md5sum(file):
     except:
         print ("md5sum error", file)
         return False
+
+ def md5sum_file(filein):
+    import subprocess
+    command = '/bin/md5sum '+ filein
+    status, output = subprocess.getstatusoutput(command)
+    if status:
+        out = False
+    else:
+        out = output.split(" ")[0]
+    return out
+    
     
 def push_panda_table_sql(connection, table_name, df):
     

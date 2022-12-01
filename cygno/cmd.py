@@ -82,7 +82,7 @@ def file_md5sum(file):
         print ("md5sum error", file)
         return False
 
- def md5sum_file(filein):
+def md5sum_file(filein):
     import subprocess
     command = '/bin/md5sum '+ filein
     status, output = subprocess.getstatusoutput(command)

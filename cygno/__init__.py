@@ -612,3 +612,17 @@ def daq_not_on_tape_runs(connection, verbose=False):
         runs = []
     return runs
 
+def daq_run_info(connection, run, verbose=False):
+    import numpy as np
+    sql = "SELECT * FROM `Runlog` WHERE `run_number` ="+str(run)+";"
+    mycursor = connection.cursor()
+    mycursor.execute(sql)
+    value = mycursor.fetchall()
+    if verbose: print(mycursor.rowcount)
+    mycursor.close()
+    try:
+        runs = np.array(value)[0]
+    except:
+        runs = []
+    return runs
+

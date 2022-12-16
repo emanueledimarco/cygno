@@ -14,11 +14,14 @@ Moreover, computing resources are available at LNF and LNGS (Cygno VM login and 
 * if you are not associeted/hosted/employed of INFN plese signup on: https://signup.app.infn.it/ (tips for foreign users see below)
 * accept the security policy  https://userportal.app.infn.it/;
 * follow the traning on computing security;
+* for foreign users no CODICE FISCALE (CF) is needed;
+<!---
   * for foreign users to be reggistred on AAI you need a CODICE FISCALE (CF) that you can generate with the tool https://quifinanza.it/strumenti/codice-fiscale 
   ```
       (Provincia: “Stato Estero")
       (LUOGO di NASCITA: BRASILE)
   ```
+--->
   * up to now also a local username in INFN local sites computing resources is required (see following point)
 
 ### Computing resources on INFN Cloud

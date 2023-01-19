@@ -288,8 +288,77 @@ def ped_(run, path='./ped/', tag = 'LAB', posix=False, min_image_to_read = 0, ma
         write2root(fileoutm, m_image, id=0, option='recreate')
         write2root(fileouts, s_image, id=0, option='recreate')
         print("DONE OUTPUT maen file: {:s} sigma file: {:s}".format(fileoutm, fileouts))
-        return m_image, s_image    
+        return m_image, s_image  
+    
+def ped_mid(run, path_file='/s3/cygno-data/', path_ped='./ped/', tag = 'LNGS', 
+            cloud=False, verbose=False):
+    #
+    # run numero del run
+    # path path lettura/scrittura piedistalli
+    # tag subdirectory dei dati
+    # min_image_to_read , max_image_to_read  range di imagine sul quale fare i piedistalli 
+    # max_image_to_read = 0 EQUIVALE A TUTTE LE IMMAGINI
+    #
+    import ROOT
+    import numpy as np
+    import tqdm
+    import os
+    import midas.file_reader
+    # funzione per fare i piedistalli se gia' non esistino nella diretory
 
+    fileoutm = (path_ped+"mean_Run{:05d}".format(run))
+    fileouts = (path_ped+"sigma_Run{:05d}".format(run))
+
+    if os.path.exists(fileoutm+".root") and os.path.exists(fileouts+".root"): 
+        # i file gia' esistono
+        m_image = read_(ROOT.TFile.Open(fileoutm+".root"))
+        s_image = read_(ROOT.TFile.Open(fileouts+".root"))
+        print("RELOAD maen file: {:s} sigma file: {:s}".format(fileoutm, fileouts))
+        return m_image, s_image
+    else:
+        # i file non esistono crea il file delle medie e delle sigma per ogni pixel dell'immagine
+        if verbose: print (">>> Pedestal Maker! <<<")
+        try:
+            mfile = open_mid(run=run, path=path_file, cloud=cloud, tag=tag, verbose=verbose)
+        except:
+            raise myError("openRunError: "+str(run))
+            
+        init=True
+        for event in mfile:
+            if event.header.is_midas_internal_event():
+                continue
+            bank_names = ", ".join(b.name for b in event.banks.values())
+            for bank_name, bank in event.banks.items():
+                if bank_name=='CAM0': # CAM image
+                    image, shape_x_image, shape_y_image = daq_cam2array(bank)
+                    if init:
+                        m_image = np.zeros((shape_x_image, shape_y_image), dtype=np.float64)
+                        s_image = np.zeros((shape_x_image, shape_y_image), dtype=np.float64)
+
+                        n0 = 0
+                        init=False
+                    #image[image<0]=99 #pach per aclune imagini
+                    m_image += image
+                    s_image += image**2 
+                    n0 += 1
+
+                    if verbose and n0 > 0 and n0 % 10==0:  # print progress and debung info for poit pixel
+                        px=1000
+                        print ("Debug Image[200,200]: %d => %.2f %.2f %.2f" % (n0,
+                                                        image[px,px],
+                                                        m_image[px,px]/n0, 
+                                                        np.sqrt((s_image[px,px] - (m_image[px,px]**2) / n0) / (n0+1))))
+                    
+        m_image = m_image/n0    
+        s_image = np.sqrt((s_image - m_image**2 * n0) / (n0 - 1))
+        m_image[np.isnan(s_image)==True]=m_image.mean() # pach per i valori insani di sigma e media
+        s_image[np.isnan(s_image)==True]=1024
+        ###### print Info and Save OutPut ######################################
+        print("WRITING ...")
+        write2root(fileoutm, m_image, id=0, option='recreate')
+        write2root(fileouts, s_image, id=0, option='recreate')
+        print("DONE OUTPUT maen file: {:s} sigma file: {:s}".format(fileoutm, fileouts))
+        return m_image, s_image  
 #
 # log book
 #

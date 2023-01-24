@@ -22,7 +22,11 @@ requirements:
 * oidc-agent: https://indigo-dc.gitbook.io/oidc-agent/installation
 * boto3sts: https://github.com/DODAS-TS/boto3sts
 * MIDAS: https://github.com/CYGNUS-RD/middleware/tree/master/midas
+
+install:
+```
       pip install git+https://github.com/CYGNUS-RD/cygno.git -U
+```
 
 ## CYGNO CLI Tools 
 ### *cygno_repo*

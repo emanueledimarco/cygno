@@ -208,8 +208,8 @@ class cfile:
 ### images tools
 * cluster_par(xc, yc, image): return intesity and dimestion
 * n_std_rectangle(x, y, ax, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return rettagle confindece level image 
-* confidence_ellipse(x, y, ax, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return ellips confidence level, rimage
-* confidence_ellipse_par(x, y, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return image quantity width, height, pearson, sum, size
+* confidence_ellipse(x, y, ax, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return ellips confidence level image
+* confidence_ellipse_par(x, y, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return quantity width, height, pearson, sum, size in the confidence ellips
 * cluster_elips(points): return points_3d
 * rebin(a, shape): return rebined shape
 * smooth(y, box_pts): return smooted array of box_pts dimesion

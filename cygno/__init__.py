@@ -596,6 +596,22 @@ def img_proj(img, vmin, vmax, log=False):
     if log: ax[1,1].set_yscale('log')
     plt.show()
 
+###
+# PMT
+###
+def get_pmt_w_by_triggers(waveform, header, number_of_w_readed, trigger):
+    pmt_data=[]
+    if trigger <= header[0]:
+ 
+        for t in range(0, header[0]):
+            offset = t*header[1]
+            if t == trigger:
+                for w in range(0, number_of_w_readed):
+                    pmt_data.append(waveform[offset])
+                    offset+=1
+    return np.array(pmt_data)
+    
+    
 ####
 # Storage & SQL
 ###

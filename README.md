@@ -8,9 +8,12 @@ middle software tools to handle cygno data, repository, images, ecc.
    * [convert HIS Camera files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_his2root)
    * [convert Midas files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_mid2root)
 3. [Library functions](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno-library-functions)
-   * [filse handling]()
+   * [files handling]()
+   * [SQL]()
+   * [old stuff]()
    * [logbook]()
-   * [storage S3/SQL/Tape]()
+   * [storage S3]()
+   * [images tools]()
 
 ## install the CYGNO library:
 
@@ -156,8 +159,23 @@ tool:
 
 ### files
 
+* open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False): open/cache MIDAS form cloud in path, return *poiner to file* ([see example](https://github.com/CYGNUS-RD/cygno/blob/main/dev/readMidasFile.ipynb))
+* daq_cam2array(bank, verbose=False): decode daq equipment CAM, return *image (2D array) shape_x_image (int), shape_y_image (int)*
+* daq_dgz2header(bank, verbose=False): decode daq equipment header DGZ, return *number_events (int), number_channels (int), number_samples (int)*
+* daq_dgz2array(bank, header, verbose=False): decode daq equipment data DGZ, return *waveform array of #number_channels * #number_samples dimesion* 
+* daq_slow2array(bank, verbose=False): decode daq equipment INPUT
 
-* open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False) open/cache MIDAS form cloud in path
+### Storage & SQL
+* daq_sql_cennection(verbose=False): return SQL connection
+* daq_update_runlog_replica_checksum(connection, run_number, md5sum, verbose=False): return run checksum 
+* daq_update_runlog_replica_tag(connection, run_number, TAG, verbose=False): return run tag
+* daq_update_runlog_replica_size(connection, run_number, size, verbose=False): return run size
+* daq_update_runlog_replica_status(connection, run_number, storage, status=-1, verbose=False): update run replica status
+* daq_read_runlog_replica_status(connection, run_number, storage, verbose=False): return run replica status
+* daq_not_on_tape_runs(connection, verbose=False): return array of file not on tape
+* daq_run_info(connection, run, verbose=False): return run info
+
+### old api before midas raw data
 * open_root(run, path='/tmp/',  cloud=True,  tag='LAB', verbose=False)  open/cache ROOT form cloud in path
 class cfile:
 ```	
@@ -187,4 +205,12 @@ class cfile:
 * s3.obj_get(filein, fileout, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
 * s3.obj_rm(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
 
-
+### images tools
+* cluster_par(xc, yc, image): return intesity and dimestion
+* n_std_rectangle(x, y, ax, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return rettagle confindece level image 
+* confidence_ellipse(x, y, ax, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return ellips confidence level, rimage
+* confidence_ellipse_par(x, y, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return image quantity width, height, pearson, sum, size
+* cluster_elips(points): return points_3d
+* rebin(a, shape): return rebined shape
+* smooth(y, box_pts): return smooted array of box_pts dimesion
+* img_proj(img, vmin, vmax, log=False): retrun plot of image projection

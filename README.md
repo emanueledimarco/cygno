@@ -17,11 +17,11 @@ middle software tools to handle cygno data, repository, images, ecc.
 
 ## install the CYGNO library:
 
-requirements:
-* Pyroot: https://root.cern/manual/python/ 
-* oidc-agent: https://indigo-dc.gitbook.io/oidc-agent/installation
-* boto3sts: https://github.com/DODAS-TS/boto3sts
-* MIDAS: https://github.com/CYGNUS-RD/middleware/tree/master/midas
+full requirements:
+* Pyroot: https://root.cern/manual/python/ (same function require root IO) 
+* oidc-agent: https://indigo-dc.gitbook.io/oidc-agent/installation (agent needed for repo_tool or S3 python library to get open id token)
+* boto3sts: https://github.com/DODAS-TS/boto3sts (primitive for S3 python library)
+* MIDAS: https://github.com/CYGNUS-RD/middleware/tree/master/midas (MIDAS libarary to open and read CYGNO raw data)
 
 install:
 ```

@@ -214,3 +214,5 @@ class cfile:
 * rebin(a, shape): return rebined shape
 * smooth(y, box_pts): return smooted array of box_pts dimesion
 * img_proj(img, vmin, vmax, log=False): retrun plot of image projection
+
+NB usefull and primitive UNIX and SQL function are available in the library https://github.com/CYGNUS-RD/cygno/blob/main/cygno/cmd.py 

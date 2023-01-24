@@ -1,17 +1,25 @@
-# CYGNO library
-*tools to handle cygno repository, images, ecc.*
+# CYGNO LIB
+middle software tools to handle cygno data, repository, images, ecc.
 
-install the CYGNO library:
+1. [install](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#install-the-cygno-library)
+2. [Command line tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno-cli-tools)
+   * [Open ID and cygno_repo ](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_repo)
+   * [stored data info](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_runs)
+   * [convert HIS Camera files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_his2root)
+   * [convert Midas files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_mid2root)
+3. [Library functions]()
 
-      pip install git+https://github.com/CYGNUS-RD/cygno.git -U
+## install the CYGNO library:
 
 requirements:
 * Pyroot: https://root.cern/manual/python/ 
 * oidc-agent: https://indigo-dc.gitbook.io/oidc-agent/installation
 * boto3sts: https://github.com/DODAS-TS/boto3sts
 * MIDAS: https://github.com/CYGNUS-RD/middleware/tree/master/midas
+      pip install git+https://github.com/CYGNUS-RD/cygno.git -U
 
-## CYGNO CLI Tool *cygno_repo*
+## CYGNO CLI Tools 
+### *cygno_repo*
 
 tool to operate on CYGNO backet in S3 exeperiment repository
 
@@ -92,7 +100,7 @@ example:
 
 Data are also shared in CYGNO CLOUD resources via the CYGNO application: https://notebook.cygno.cloud.infn.it:8888/ (jupyter notebook, python, root and terminal use dodasts/cygno-jupyter:v2.1 image) and availeble via web broser https://minio.cloud.infn.it/
       
-## CYGNO CLI Tool *cygno_runs*
+###  *cygno_runs*
 
 tool to show SQL runs infromation stored in the logbook
 
@@ -115,7 +123,7 @@ HTTP access
 * full database table: http://lnf.infn.it/~mazzitel/php/cygno_sql_query.php?table=on 
 	
 	
-## CYGNO CLI Tool *cygno_his2root*
+###  *cygno_his2root*
 
 convert HIS HoKaWo output file in CYGNO root histograms data files
 
@@ -126,7 +134,7 @@ convert HIS HoKaWo output file in CYGNO root histograms data files
 	  -d, --delete   delete HIS file after conversion;
 	  -v, --verbose  verbose output;
 	  
-## CYGNO CLI Tool *cygno_mid2root*
+###  *cygno_mid2root*
 
 convert MIDAS output file in CYGNO root histograms data files. Required:
 
@@ -141,7 +149,7 @@ tool:
 	  -p PATH, --path=PATH  path to file or cache directory
 	  -v, --verbose         verbose output;
 
-## CYGNO library tool
+## CYGNO library functions
 
 ### data class for ROOT files
 

@@ -8,12 +8,12 @@ middle software tools to handle cygno data, repository, images, ecc.
    * [convert HIS Camera files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_his2root)
    * [convert Midas files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_mid2root)
 3. [Library functions](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno-library-functions)
-   * [files handling]()
-   * [SQL]()
-   * [old stuff]()
-   * [logbook]()
-   * [storage S3]()
-   * [images tools]()
+   * [files handling](https://github.com/CYGNUS-RD/cygno/blob/main/README.md#files)
+   * [SQL](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#storage--sql)
+   * [old stuff](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#old-api-before-midas-raw-data)
+   * [logbook tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#logbook)
+   * [storage S3 tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#s3-repo)
+   * [images tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#images-tools)
 
 ## install the CYGNO library:
 

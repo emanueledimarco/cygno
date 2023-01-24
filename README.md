@@ -7,7 +7,10 @@ middle software tools to handle cygno data, repository, images, ecc.
    * [stored data info](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_runs)
    * [convert HIS Camera files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_his2root)
    * [convert Midas files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_mid2root)
-3. [Library functions]()
+3. [Library functions](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno-library-functions)
+   * [filse handling]()
+   * [logbook]()
+   * [storage S3/SQL/Tape]()
 
 ## install the CYGNO library:
 
@@ -151,9 +154,13 @@ tool:
 
 ## CYGNO library functions
 
-### data class for ROOT files
+### files
 
-	class cfile:
+
+* open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False) open/cache MIDAS form cloud in path
+* open_root(run, path='/tmp/',  cloud=True,  tag='LAB', verbose=False)  open/cache ROOT form cloud in path
+class cfile:
+```	
 		def __init__(self, file, pic, wfm, max_pic, max_wfm, x_resolution, y_resolution):
 			self.file         = file
 			self.pic          = pic 
@@ -161,10 +168,8 @@ tool:
 			self.max_pic      = max_pic
 			self.max_wfm      = max_wfm
 			self.x_resolution = x_resolution
-			self.y_resolution = y_resolution
-
-* open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False) open/cache MIDAS form cloud in path
-* open_root(run, path='/tmp/',  cloud=True,  tag='LAB', verbose=False)  open/cache ROOT form cloud in path
+			self.y_resolution = y_resolution 
+```
 * open_(run, tag='LAB', posix=False, verbose=True) - open cygno ROOT/MID file from remote or on cloud posix like access and return cfile class type
 * read_(f, iTr) - return image array from file poiter
 * pic_(cfile, iTr=0) - return immage array of track iTr from cfile

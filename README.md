@@ -9,7 +9,7 @@ middle software tools to handle cygno data, repository, images, ecc.
    * [convert Midas files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_mid2root)
 3. [Library functions](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno-library-functions)
    * [files handling](https://github.com/CYGNUS-RD/cygno/blob/main/README.md#files)
-   * [SQL](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#storage--sql)
+   * [Storage and SQL](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#storage-and-sql)
    * [old stuff](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#old-api-before-midas-raw-data)
    * [logbook tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#logbook)
    * [storage S3 tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#s3-repo)
@@ -169,7 +169,7 @@ tool:
 * daq_dgz2array(bank, header, verbose=False): decode daq equipment data DGZ, return *waveform array of #number_channels * #number_samples dimesion* 
 * daq_slow2array(bank, verbose=False): decode daq equipment INPUT
 
-### Storage & SQL
+### Storage and SQL
 * daq_sql_cennection(verbose=False): return SQL connection
 * daq_update_runlog_replica_checksum(connection, run_number, md5sum, verbose=False): return run checksum 
 * daq_update_runlog_replica_tag(connection, run_number, TAG, verbose=False): return run tag

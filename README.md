@@ -13,7 +13,7 @@ middle software tools to handle cygno data, repository, images, ecc.
    * [old stuff](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#old-api-before-midas-raw-data)
    * [logbook tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#logbook)
    * [storage S3 tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#s3-repo)
-   * [images tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#images-tools)
+   * [images and PMTSs tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#images-and-pmt-tools)
 
 ## install the CYGNO library:
 
@@ -209,7 +209,7 @@ class cfile:
 * s3.obj_get(filein, fileout, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
 * s3.obj_rm(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
 
-### images tools
+### images and PMT tools
 * cluster_par(xc, yc, image): return intesity and dimestion
 * n_std_rectangle(x, y, ax, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return rettagle confindece level image 
 * confidence_ellipse(x, y, ax, image = np.array([]), n_std=3.0, facecolor='none', kwargs): return ellips confidence level image
@@ -218,5 +218,6 @@ class cfile:
 * rebin(a, shape): return rebined shape
 * smooth(y, box_pts): return smooted array of box_pts dimesion
 * img_proj(img, vmin, vmax, log=False): retrun plot of image projection
+* get_pmt_w_by_triggers(waveform, header, number_of_w_readed, trigger) return array of pmt data 0 to number_of_w_readed for a given trigger (int)
 
 NB usefull and primitive UNIX and SQL function are available in the library https://github.com/CYGNUS-RD/cygno/blob/main/cygno/cmd.py 

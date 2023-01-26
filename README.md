@@ -166,7 +166,7 @@ tool:
 * 1.0.7 open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False): open/cache MIDAS form cloud in path, return *poiner to file* ([see example](https://github.com/CYGNUS-RD/cygno/blob/main/dev/readMidasFile.ipynb))
 * 1.0.7 daq_cam2array(bank, verbose=False): decode daq equipment CAM, return *image (2D array) shape_x_image (int), shape_y_image (int)*
 * (obsolete) daq_dgz2header(bank, verbose=False): decode daq equipment header DGZ, return *number_events (int), number_channels (int), number_samples (int)*
-* 1.0.9 def daq_dgz_full2header(bank, verbose=False): decode full daq equipment header DGZ, return *number_events, number_channels, number_samples, vertical_resulution, sampling_rate* (offset and TTT are not returned up to now)
+* 1.0.9 daq_dgz_full2header(bank, verbose=False): decode full daq equipment header DGZ, return *number_events, number_channels, number_samples, vertical_resulution, sampling_rate* (offset and TTT are not returned up to now)
 * (obsolete) daq_dgz2array(bank, header, verbose=False): decode daq equipment data DGZ, return *waveform array of #number_channels * #number_samples dimesion* 
 * 1.0.9 daq_dgz_full2array(bank, header, verbose=False): decode fast an slow daq equipment data DGZ, return *waveform_f, waveform_s*
 * 1.0.8 daq_slow2array(bank, verbose=False): decode daq equipment INPUT

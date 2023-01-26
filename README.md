@@ -163,23 +163,23 @@ tool:
 
 ### files
 
-* open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False): open/cache MIDAS form cloud in path, return *poiner to file* ([see example](https://github.com/CYGNUS-RD/cygno/blob/main/dev/readMidasFile.ipynb))
-* daq_cam2array(bank, verbose=False): decode daq equipment CAM, return *image (2D array) shape_x_image (int), shape_y_image (int)*
+* 1.0.7 open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False): open/cache MIDAS form cloud in path, return *poiner to file* ([see example](https://github.com/CYGNUS-RD/cygno/blob/main/dev/readMidasFile.ipynb))
+* 1.0.7 daq_cam2array(bank, verbose=False): decode daq equipment CAM, return *image (2D array) shape_x_image (int), shape_y_image (int)*
 * (obsolete) daq_dgz2header(bank, verbose=False): decode daq equipment header DGZ, return *number_events (int), number_channels (int), number_samples (int)*
-* def daq_dgz_full2header(bank, verbose=False): decode full daq equipment header DGZ, return *number_events, number_channels, number_samples, vertical_resulution, sampling_rate* (offset and TTT are not returned up to now)
+* 1.0.9 def daq_dgz_full2header(bank, verbose=False): decode full daq equipment header DGZ, return *number_events, number_channels, number_samples, vertical_resulution, sampling_rate* (offset and TTT are not returned up to now)
 * (obsolete) daq_dgz2array(bank, header, verbose=False): decode daq equipment data DGZ, return *waveform array of #number_channels * #number_samples dimesion* 
-* daq_dgz_full2array(bank, header, verbose=False): decode fast an slow daq equipment data DGZ, return *waveform_f, waveform_s*
-* daq_slow2array(bank, verbose=False): decode daq equipment INPUT
+* 1.0.9 daq_dgz_full2array(bank, header, verbose=False): decode fast an slow daq equipment data DGZ, return *waveform_f, waveform_s*
+* 1.0.8 daq_slow2array(bank, verbose=False): decode daq equipment INPUT
 
 ### Storage and SQL
-* daq_sql_cennection(verbose=False): return SQL connection
-* daq_update_runlog_replica_checksum(connection, run_number, md5sum, verbose=False): return run checksum 
-* daq_update_runlog_replica_tag(connection, run_number, TAG, verbose=False): return run tag
-* daq_update_runlog_replica_size(connection, run_number, size, verbose=False): return run size
-* daq_update_runlog_replica_status(connection, run_number, storage, status=-1, verbose=False): update run replica status
-* daq_read_runlog_replica_status(connection, run_number, storage, verbose=False): return run replica status
-* daq_not_on_tape_runs(connection, verbose=False): return array of file not on tape
-* daq_run_info(connection, run, verbose=False): return run info
+* 1.0.8 daq_sql_cennection(verbose=False): return SQL connection
+* 1.0.8 daq_update_runlog_replica_checksum(connection, run_number, md5sum, verbose=False): return run checksum 
+* 1.0.8 daq_update_runlog_replica_tag(connection, run_number, TAG, verbose=False): return run tag
+* 1.0.8 daq_update_runlog_replica_size(connection, run_number, size, verbose=False): return run size
+* 1.0.8 daq_update_runlog_replica_status(connection, run_number, storage, status=-1, verbose=False): update run replica status
+* 1.0.8 daq_read_runlog_replica_status(connection, run_number, storage, verbose=False): return run replica status
+* 1.0.8 daq_not_on_tape_runs(connection, verbose=False): return array of file not on tape
+* 1.0.8 daq_run_info(connection, run, verbose=False): return run info
 
 ### old api before midas raw data
 * open_root(run, path='/tmp/',  cloud=True,  tag='LAB', verbose=False)  open/cache ROOT form cloud in path
@@ -201,15 +201,15 @@ class cfile:
 * ped_(run, path='./ped/', tag = 'LAB', posix=False, min_image_to_read = 0, max_image_to_read = 0, verbose=False) - cerate (if not exist) root file image of mean and sigma for each pixel and return main and sigma imege of pedestal runs
 
 ### logbook 
-* read_cygno_logbook(verbose=False) 		ruturn pandas db old google sheet logbook info
-* run_info_logbook(run, sql=True, verbose=True)	return pandas db google/sql run [int] info
+* 1.0.1 read_cygno_logbook(verbose=False) 		ruturn pandas db old google sheet logbook info
+* 1.0.1 run_info_logbook(run, sql=True, verbose=True)	return pandas db google/sql run [int] info
 
 ### s3 repo
-* s3.root_file(run, tag='LAB', posix=False, verbose=False)
-* s3.backet_list(tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
-* s3.obj_put(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
-* s3.obj_get(filein, fileout, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
-* s3.obj_rm(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
+* 1.0.1 s3.root_file(run, tag='LAB', posix=False, verbose=False)
+* 1.0.1 s3.backet_list(tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
+* 1.0.1 s3.obj_put(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
+* 1.0.1 s3.obj_get(filein, fileout, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
+* 1.0.1 s3.obj_rm(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=False)
 
 ### images and PMT tools
 * cluster_par(xc, yc, image): return intesity and dimestion
@@ -220,6 +220,6 @@ class cfile:
 * rebin(a, shape): return rebined shape
 * smooth(y, box_pts): return smooted array of box_pts dimesion
 * img_proj(img, vmin, vmax, log=False): retrun plot of image projection
-* get_pmt_w_by_triggers(waveform, header, number_of_w_readed, trigger) return array of pmt data 0 to number_of_w_readed for a given trigger (int)
+* 1.0.9 get_pmt_w_by_triggers(waveform, header, number_of_w_readed, trigger) return array of pmt data 0 to number_of_w_readed for a given trigger (int)
 
 NB usefull and primitive UNIX and SQL function are available in the library https://github.com/CYGNUS-RD/cygno/blob/main/cygno/cmd.py 

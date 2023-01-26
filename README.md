@@ -165,8 +165,10 @@ tool:
 
 * open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False): open/cache MIDAS form cloud in path, return *poiner to file* ([see example](https://github.com/CYGNUS-RD/cygno/blob/main/dev/readMidasFile.ipynb))
 * daq_cam2array(bank, verbose=False): decode daq equipment CAM, return *image (2D array) shape_x_image (int), shape_y_image (int)*
-* daq_dgz2header(bank, verbose=False): decode daq equipment header DGZ, return *number_events (int), number_channels (int), number_samples (int)*
-* daq_dgz2array(bank, header, verbose=False): decode daq equipment data DGZ, return *waveform array of #number_channels * #number_samples dimesion* 
+* (obsolete) daq_dgz2header(bank, verbose=False): decode daq equipment header DGZ, return *number_events (int), number_channels (int), number_samples (int)*
+* def daq_dgz_full2header(bank, verbose=False): decode full daq equipment header DGZ, return *number_events, number_channels, number_samples, vertical_resulution, sampling_rate* (offset and TTT are not returned up to now)
+* (obsolete) daq_dgz2array(bank, header, verbose=False): decode daq equipment data DGZ, return *waveform array of #number_channels * #number_samples dimesion* 
+* daq_dgz_full2array(bank, header, verbose=False): decode fast an slow daq equipment data DGZ, return *waveform_f, waveform_s*
 * daq_slow2array(bank, verbose=False): decode daq equipment INPUT
 
 ### Storage and SQL

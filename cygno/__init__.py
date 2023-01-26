@@ -158,6 +158,103 @@ def daq_dgz2array(bank, header, verbose=False):
         print(waveform, number_events, number_channels)
     return waveform
 
+def daq_dgz_full2header(bank, verbose=False):
+    # v0.1 full PMT recostruction
+    import numpy as np
+    nboard              = bank.data[0]
+    full_buffer_size    = len(bank.data)
+    name_board          = np.empty([nboard], dtype=int)
+    number_samples      = np.empty([nboard], dtype=int)
+    number_channels     = np.empty([nboard], dtype=int)
+    number_events       = np.empty([nboard], dtype=int)
+    vertical_resulution = np.empty([nboard], dtype=int)
+    sampling_rate       = np.empty([nboard], dtype=int)
+    cannaels_offset_a   = []
+    cannaels_ttt_a      = []
+    if verbose: print("Number of board: {:d}".format(nboard))
+    ich=0
+    for iboard in range(nboard):
+        ich+=1
+        name_board[iboard]          = bank.data[ich]
+        ich+=1  
+        number_samples[iboard]      = bank.data[ich]
+        ich+=1  
+        number_channels[iboard]     = bank.data[ich]
+        ich+=1  
+        number_events[iboard]       = bank.data[ich]
+        ich+=1  
+        vertical_resulution[iboard] = bank.data[ich]
+        ich+=1  
+        sampling_rate[iboard]       = bank.data[ich]
+
+        if verbose:
+            print ("board: {:d}, name_board: {:d}, number_samples: {:d}, number_channels: {:d}, number_events: {:d}, vertical_resulution: {:d}, sampling_rate: {:d}".format( 
+                   iboard, name_board[iboard], number_samples[iboard], number_channels[iboard], number_events[iboard], vertical_resulution[iboard], sampling_rate[iboard]))
+        
+        cannaels_offset = np.empty([number_channels[iboard]], dtype=int)
+        for ichannels in range(number_channels[iboard]):
+            ich+=1
+            cannaels_offset[ichannels] = bank.data[ich]
+            #print(ich, bank.data[ich])
+        cannaels_offset_a.append(cannaels_offset)
+        
+        if verbose:
+            print ("cannaels_offset: ", cannaels_offset)
+
+        ######### expected code to read TTT data
+        # cannaels_ttt = np.empty(number_events[iboard], dtype=int)
+        # for ttt in range(number_events[iboard]):
+        #     ich+=1
+        #     cannaels_ttt[ttt] = bank.data[ich]
+            # print(ich, bank.data[ich])
+            
+        ###### parch for issue in TTT data dimesion  
+        cannaels_ttt = []
+        while (ich+1<full_buffer_size):
+            ich+=1
+            if bank.data[ich] == 1720:
+                ich-=1
+                break
+            else:
+                cannaels_ttt.append(bank.data[ich])
+        cannaels_ttt_a.append(cannaels_ttt)
+        ###############################################
+        if verbose:
+            print ("cannaels_ttt: ", cannaels_ttt, len(cannaels_ttt)-number_events[iboard])
+    return number_events, number_channels, number_samples, vertical_resulution, sampling_rate
+
+def daq_dgz_full2array(bank, header, verbose=False):
+    waveform_f = []
+    data_offset = 0
+    number_events  = header[0][0]
+    number_channels= header[1][0]
+    number_samples = header[2][0]
+    for ievent in range(number_events):       
+        for ichannels in range(number_channels):
+            if verbose:
+                print ("data_offset, data_offset+number_samples",
+                       data_offset, data_offset+number_samples)
+                print(bank.data[data_offset:data_offset+number_samples])
+
+            waveform_f.append(bank.data[data_offset:data_offset+number_samples])
+            data_offset += number_samples
+    number_events  = header[0][1]
+    number_channels= header[1][1]
+    number_samples = header[2][1]
+    waveform_s = []
+    for ievent in range(number_events):       
+        for ichannels in range(number_channels):
+            if verbose:
+                print ("data_offset, data_offset+number_samples",
+                       data_offset, data_offset+number_samples)
+                print(bank.data[data_offset:data_offset+number_samples])
+
+            waveform_s.append(bank.data[data_offset:data_offset+number_samples])
+            data_offset += number_samples
+    if verbose:
+        print(number_channels, number_events, number_channels)
+    return waveform_f, waveform_s
+
 def daq_slow2array(bank, verbose=False):
     if verbose:
         print(list(bank.data))

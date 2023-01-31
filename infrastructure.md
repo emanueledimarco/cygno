@@ -60,7 +60,9 @@ the cloud-storage/ contain tree backet:
 
 ### Usage of the CYGNO notebook web interface and Cloud services
 Two VM offer acces to cloud infrastrucure via web services based on jupyter notebook interface
-* production: CYGNO default notebook https://notebook.cygno.cloud.infn.it:8888/ ([16 CPU](https://novabench.com/parts/cpu/intel-core-broadwell-ibrs)/32 GB); [usage monitor](https://90.147.174.175:3000/login) 
+* production: 
+  - CYGNO notebook 01 https://notebook.cygno.cloud.infn.it:8888/ ([16 CPU](https://novabench.com/parts/cpu/intel-core-broadwell-ibrs)/32 GB); [usage monitor](https://90.147.174.175:3000/login)
+  - CYGNO notebook 02 https://notebook02.cygno.cloud.infn.it:8888/ (16CPU/32 GB);
 * test environment https://192.135.24.159:8888/ ([8 CPU](https://www.intel.it/content/www/it/it/products/platforms/details/cascade-lake.html)/16 GB); [usage monitor](https://192.135.24.159:3000)
 * the web inteface offer the possibility to run a specific software configuration. In general:
   * tag [dodas](https://github.com/DODAS-TS/dodas-docker-images) realises are the official one and approved by INFN

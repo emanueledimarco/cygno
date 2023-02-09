@@ -5,7 +5,7 @@ The CYGNO exepriment develop a facility based on the [INFN cloud](https://www.cl
 - notebooksinterface with python and root kernles, bach resources - [status nb1]([https://90.147.174.175:3000/login](https://90.147.174.175:3000)), [status nb2](https://192.135.24.178:3000/login)
 - bach resources accesible via condor queues - [status](https://grafana.131.154.96.115.myip.cloud.infn.it/login)
 
-Usage of [pledged resources](https://monitoring.cloud.infn.it:3000/d/u1sBcydVk/cygno-cloud-capacities?orgId=1)
+CYGNO status of usage of [pledged resources](https://monitoring.cloud.infn.it:3000/d/u1sBcydVk/cygno-cloud-capacities?orgId=1)
 
 Moreover, computing resources are available at LNF and LNGS (Cygno VM login and U-LITE nodes) and two [DAQ server](https://drive.google.com/file/d/1kEzvfJK7WSXK2Y1vfEwRqcH9uSmoYsXl/view?usp=sharing) equipped with GPU
 

@@ -2,10 +2,10 @@
 The CYGNO exepriment develop a facility based on the [INFN cloud](https://www.cloud.infn.it/) to host:
 - data experiment storage ([S3 based](https://it.wikipedia.org/wiki/Amazon_S3)) [status](https://monitoring.cloud.infn.it:3000/d/cygno-s3/storage-s3-cygno?orgId=1)
 - tape backup storage [status](https://t1metria.cr.cnaf.infn.it/d/ZArHZvEMz/storage-usage-per-experiment?orgId=18&var-exp=cygn&var-vo=CYGNO&from=now-30d&to=now) (NB for disk space refer [S3](https://monitoring.cloud.infn.it:3000/d/cygno-s3/storage-s3-cygno?orgId=1) starage status)
-- notebook web interface with python and root kernles, bach resources ([status](https://90.147.174.175:3000/login))
+- notebooksinterface with python and root kernles, bach resources ([status nb1](https://90.147.174.175:3000/login), [status nb2](https://90.147.174.175:3000/login))
 - bach resources accesible via condor queues
 
-monito of [Cloud resources](https://monitoring.cloud.infn.it:3000/d/u1sBcydVk/cygno-cloud-capacities?orgId=1)
+Usage of [pledged resources](https://monitoring.cloud.infn.it:3000/d/u1sBcydVk/cygno-cloud-capacities?orgId=1)
 
 Moreover, computing resources are available at LNF and LNGS (Cygno VM login and U-LITE nodes) and two [DAQ server](https://drive.google.com/file/d/1kEzvfJK7WSXK2Y1vfEwRqcH9uSmoYsXl/view?usp=sharing) equipped with GPU
 

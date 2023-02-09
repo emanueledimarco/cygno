@@ -47,7 +47,7 @@ Moreover, computing resources are available at LNF and LNGS (Cygno VM login and 
 Data collected by the experiment DAQ are automatically pushed on INFN [S3 cloud](https://it.wikipedia.org/wiki/Amazon_S3) storage. The storage data and the experiment area for analysis and simulation can be acces and manage via: 
 
 * Web Tool: https://minio.cloud.infn.it/minio/login
-* Cloud CYGNO web interface tool: https://notebook.cygno.cloud.infn.it:8888/ 
+* Cloud CYGNO web interfaces tool: https://notebook.cygno.cloud.infn.it:8888/, https://notebook02.cygno.cloud.infn.it:8888/
 * CLI tool: https://github.com/CYGNUS-RD/cygno#cygno-cli-tool-cygno_repo
 
 the cloud-storage/ contain tree backet:
@@ -67,7 +67,8 @@ Two VM offer acces to cloud infrastrucure via web services based on jupyter note
 * the web inteface offer the possibility to run a specific software configuration. In general:
   * tag [dodas](https://github.com/DODAS-TS/dodas-docker-images) realises are the official one and approved by INFN
   * tag [gmazzitelli](https://github.com/gmazzitelli/dodas-docker-images) are realisesed fork of official project under [development](https://github.com/gmazzitelli/cloud_docker_dev) and test
-
+### Tag v1.0.18 ###
+  - cygno lib v9 (PMT readout)
 ### Tag v1.0.17 ###
   - python 3.9.10 (not deafult), emacs, screen, root_numpy, uproot, pydot, tensorflow, opencv-python, graphviz
   - [full packege list](https://raw.githubusercontent.com/CYGNUS-RD/cygno/main/requirements.txt)

@@ -11,7 +11,7 @@ middle software tools to handle cygno data, repository, images, ecc.
    * [files handling](https://github.com/CYGNUS-RD/cygno#files)
    * [Storage and SQL](https://github.com/CYGNUS-RD/cygno#storage-and-sql)
    * [old stuff](https://github.com/CYGNUS-RD/cygno#old-api-before-midas-raw-data)
-   * [logbook tools](https://github.com/CYGNUS-RD#logbook)
+   * [logbook tools](https://github.com/CYGNUS-RD/cygno#logbook)
    * [storage S3 tools](https://github.com/CYGNUS-RD/cygno#s3-repo)
    * [images and PMTSs tools](https://github.com/CYGNUS-RD/cygno#images-and-pmt-tools)
 

@@ -1,19 +1,19 @@
 # CYGNO LIB
 middle software tools to handle cygno data, repository, images, ecc.
 
-1. [install](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#install-the-cygno-library)
-2. [Command line tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno-cli-tools)
-   * [Open ID and cygno_repo ](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_repo)
-   * [stored data info](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_runs)
-   * [convert HIS Camera files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_his2root)
-   * [convert Midas files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno_mid2root)
-3. [Library functions](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#cygno-library-functions)
-   * [files handling](https://github.com/CYGNUS-RD/cygno/blob/main/README.md#files)
-   * [Storage and SQL](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#storage-and-sql)
-   * [old stuff](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#old-api-before-midas-raw-data)
-   * [logbook tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#logbook)
-   * [storage S3 tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#s3-repo)
-   * [images and PMTSs tools](https://github.com/CYGNUS-RD/cygno/edit/main/README.md#images-and-pmt-tools)
+1. [install](https://github.com/CYGNUS-RD/cygno#install-the-cygno-library)
+2. [Command line tools](https://github.com/CYGNUS-RD/cygno#cygno-cli-tools)
+   * [Open ID and cygno_repo ](https://github.com/CYGNUS-RD/cygn#cygno_repo)
+   * [stored data info](https://github.com/CYGNUS-RD/cygno#cygno_runs)
+   * [convert HIS Camera files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno#cygno_his2root)
+   * [convert Midas files 2 root T2H inage](https://github.com/CYGNUS-RD/cygno#cygno_mid2root)
+3. [Library functions](https://github.com/CYGNUS-RD/cygno#cygno-library-functions)
+   * [files handling](https://github.com/CYGNUS-RD/cygno#files)
+   * [Storage and SQL](https://github.com/CYGNUS-RD/cygno#storage-and-sql)
+   * [old stuff](https://github.com/CYGNUS-RD/cygno#old-api-before-midas-raw-data)
+   * [logbook tools](https://github.com/CYGNUS-RD#logbook)
+   * [storage S3 tools](https://github.com/CYGNUS-RD/cygno#s3-repo)
+   * [images and PMTSs tools](https://github.com/CYGNUS-RD/cygno#images-and-pmt-tools)
 
 ## install the CYGNO library:
 

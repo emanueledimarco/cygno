@@ -1,6 +1,6 @@
 # Computing infrastrcture
 The CYGNO exepriment develop a facility based on the [INFN cloud](https://www.cloud.infn.it/) to host:
-- data experiment storage ([S3 based](https://it.wikipedia.org/wiki/Amazon_S3)) - [status](https://monitoring.cloud.infn.it:3000/d/cygno-s3/storage-s3-cygno?orgId=1)
+- data experiment storage ([S3 based](https://it.wikipedia.org/wiki/Amazon_S3)) - [data](https://monitoring.cloud.infn.it:3000/d/cygno-s3/storage-s3-cygno?orgId=1&var-project=cygno&var-bucket=cygno-data), [sim](https://monitoring.cloud.infn.it:3000/d/cygno-s3/storage-s3-cygno?orgId=1&var-project=cygno&var-bucket=cygno-sim), [analisys](https://monitoring.cloud.infn.it:3000/d/cygno-s3/storage-s3-cygno?orgId=1&var-project=cygno&var-bucket=cygno-analisys)
 - tape backup storage - [status](https://t1metria.cr.cnaf.infn.it/d/ZArHZvEMz/storage-usage-per-experiment?orgId=18&var-exp=cygn&var-vo=CYGNO&from=now-30d&to=now) (NB for disk space refer [S3](https://monitoring.cloud.infn.it:3000/d/cygno-s3/storage-s3-cygno?orgId=1) starage status)
 - two notebooks interface with python and root kernles, bach resources, posix acces to data storage - [status nb1](https://90.147.174.175:3000), [status nb2](https://192.135.24.178:3000/login)
 - bach resources accesible via condor queues - [status](https://grafana.131.154.96.115.myip.cloud.infn.it/login)

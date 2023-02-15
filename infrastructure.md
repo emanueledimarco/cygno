@@ -1,11 +1,11 @@
 # Computing infrastrcture
 The CYGNO exepriment develop a facility based on the [INFN cloud](https://www.cloud.infn.it/) to host:
-- data experiment storage ([S3 based](https://it.wikipedia.org/wiki/Amazon_S3))
-- tape backup storage ([status](https://t1metria.cr.cnaf.infn.it/d/ZArHZvEMz/storage-usage-per-experiment?orgId=18&var-exp=cygn&var-vo=CYGNO&from=now-30d&to=now) NB disk space is wrong) 
-- notebook web interface with python and root kernles, bach resources ([status](https://90.147.174.175:3000/login))
-- bach resources accesible via condor queues
+- data experiment storage ([S3 based](https://it.wikipedia.org/wiki/Amazon_S3)) - [status](https://monitoring.cloud.infn.it:3000/d/cygno-s3/storage-s3-cygno?orgId=1)
+- tape backup storage - [status](https://t1metria.cr.cnaf.infn.it/d/ZArHZvEMz/storage-usage-per-experiment?orgId=18&var-exp=cygn&var-vo=CYGNO&from=now-30d&to=now) (NB for disk space refer [S3](https://monitoring.cloud.infn.it:3000/d/cygno-s3/storage-s3-cygno?orgId=1) starage status)
+- two notebooks interface with python and root kernles, bach resources, posix acces to data storage - [status nb1](https://90.147.174.175:3000), [status nb2](https://192.135.24.178:3000/login)
+- bach resources accesible via condor queues - [status](https://grafana.131.154.96.115.myip.cloud.infn.it/login)
 
-monito of [Cloud resources](https://monitoring.cloud.infn.it:3000/d/u1sBcydVk/cygno-cloud-capacities?orgId=1)
+CYGNO status of usage of [pledged resources](https://monitoring.cloud.infn.it:3000/d/u1sBcydVk/cygno-cloud-capacities?orgId=1)
 
 Moreover, computing resources are available at LNF and LNGS (Cygno VM login and U-LITE nodes) and two [DAQ server](https://drive.google.com/file/d/1kEzvfJK7WSXK2Y1vfEwRqcH9uSmoYsXl/view?usp=sharing) equipped with GPU
 
@@ -47,7 +47,7 @@ Moreover, computing resources are available at LNF and LNGS (Cygno VM login and 
 Data collected by the experiment DAQ are automatically pushed on INFN [S3 cloud](https://it.wikipedia.org/wiki/Amazon_S3) storage. The storage data and the experiment area for analysis and simulation can be acces and manage via: 
 
 * Web Tool: https://minio.cloud.infn.it/minio/login
-* Cloud CYGNO web interface tool: https://notebook.cygno.cloud.infn.it:8888/ 
+* Cloud CYGNO web interfaces tool: https://notebook.cygno.cloud.infn.it:8888/, https://notebook02.cygno.cloud.infn.it:8888/
 * CLI tool: https://github.com/CYGNUS-RD/cygno#cygno-cli-tool-cygno_repo
 
 the cloud-storage/ contain tree backet:
@@ -60,12 +60,15 @@ the cloud-storage/ contain tree backet:
 
 ### Usage of the CYGNO notebook web interface and Cloud services
 Two VM offer acces to cloud infrastrucure via web services based on jupyter notebook interface
-* production: CYGNO default notebook https://notebook.cygno.cloud.infn.it:8888/ ([16 CPU](https://novabench.com/parts/cpu/intel-core-broadwell-ibrs)/32 GB); [usage monitor](https://90.147.174.175:3000/login) 
+* production: 
+  - CYGNO notebook 01 https://notebook.cygno.cloud.infn.it:8888/ ([16 CPU](https://novabench.com/parts/cpu/intel-core-broadwell-ibrs)/32 GB); [usage monitor](https://90.147.174.175:3000/login)
+  - CYGNO notebook 02 https://notebook02.cygno.cloud.infn.it:8888/ (16 CPU/32 GB);
 * test environment https://192.135.24.159:8888/ ([8 CPU](https://www.intel.it/content/www/it/it/products/platforms/details/cascade-lake.html)/16 GB); [usage monitor](https://192.135.24.159:3000)
 * the web inteface offer the possibility to run a specific software configuration. In general:
   * tag [dodas](https://github.com/DODAS-TS/dodas-docker-images) realises are the official one and approved by INFN
   * tag [gmazzitelli](https://github.com/gmazzitelli/dodas-docker-images) are realisesed fork of official project under [development](https://github.com/gmazzitelli/cloud_docker_dev) and test
-
+### Tag v1.0.18 ###
+  - cygno lib v9 (PMT readout)
 ### Tag v1.0.17 ###
   - python 3.9.10 (not deafult), emacs, screen, root_numpy, uproot, pydot, tensorflow, opencv-python, graphviz
   - [full packege list](https://raw.githubusercontent.com/CYGNUS-RD/cygno/main/requirements.txt)

@@ -60,7 +60,7 @@ or refresh the token
       eval `oidc-agent`
       oidc-gen --reauthenticate --flow device infncloud-iam (if you alrady have the token)
       
-you can also add in your bush (or equivalent) profile
+you can also add in your bash (or equivalent) profile
 
 	echo "CLOUD storage setup: infncloud-iam"
 	export REFRESH_TOKEN="xxx"

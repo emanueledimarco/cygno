@@ -53,7 +53,8 @@ requirements:
 before run the script crate the iam token:
 
       eval `oidc-agent`
-      oidc-token infncloud-iam (to generate or see your active token)
+      oidc-gen --flow device --dae https://iam.cloud.infn.it/devicecode infncloud-iam (to generate) 
+      oidc-token infncloud-iam (to see your active token)
  
 or refresh the token
  

@@ -25,7 +25,7 @@ Moreover, computing resources are available at LNF and LNGS (Cygno VM login and 
   * up to now also a local username in INFN local sites computing resources is required (see following point)
 
 ### Computing resources on INFN Cloud
-* signup as **user** on [INFN CLOUD](https://guides.cloud.infn.it/docs/users-guides/en/latest/users_guides/getting_started.html), as responsable put everyware **Giovanni Mazzitelli**
+* signup as **user** on [INFN CLOUD](https://guides.cloud.infn.it/docs/users-guides/en/latest/users_guides/getting_started/getting_started.html), as responsable put everyware **Giovanni Mazzitelli**
 * when approved follow the [HOWTO](https://github.com/CYGNUS-RD/cygno/blob/main/infrastructure.md#usage-of-the-cygno-notebook-web-interface-and-cloud-services) to exploit the resources
 
 

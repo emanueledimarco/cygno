@@ -57,7 +57,7 @@ def open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False):
         else:
             raise myError("openFileError: "+path+tag+fname+" do not exist") 
     else:
-        filetmp = cmd.cache_file(fname, cachedir='/tmp/', verbose=verbose)
+        filetmp = cmd.cache_file(fname, cachedir=path, verbose=verbose)
         f = midas.file_reader.MidasFile(filetmp)  
     return f
 
@@ -113,6 +113,15 @@ def daq_cam2array(bank, verbose=False):
     image = np.reshape(bank.data, (shape_x_image, shape_y_image))
     return image, shape_x_image, shape_y_image
 
+def get_bor_odb(mfile): # function to acquire the begin of run ODB entries from the midas file
+    try:
+        odb = mfile.get_bor_odb_dump()
+    except:
+        myError("No begin-of-run ODB dump found")
+    
+    mfile.jump_to_start()
+    return odb
+
 def daq_dgz2header(bank, verbose=False):
     nboard = bank.data[0]
     ich = 1
@@ -138,7 +147,7 @@ def daq_dgz2header(bank, verbose=False):
         if verbose:
             print ("cannaels_offset: ", cannaels_offset)
         return number_events, number_channels, number_samples
-    
+
 def daq_dgz2array(bank, header, verbose=False):
     waveform = []
     data_offset = 0
@@ -158,6 +167,30 @@ def daq_dgz2array(bank, header, verbose=False):
         print(waveform, number_events, number_channels)
     return waveform
 
+class dgtz_header:      # very simple class for the dgtz header
+    def __init__(self, a):
+        self.ntriggers           = a[0]
+        self.nchannels           = a[1]
+        self.nsamples            = a[2]
+        self.vertical_resulution = a[3]
+        self.sampling_rate       = a[4]
+        self.offsets             = a[5]
+        self.TTT                 = a[6]
+        self.SIC                 = a[7]
+        
+        self.itemDict = {}
+        self.itemDict["0"] = self.ntriggers
+        self.itemDict["1"] = self.nchannels
+        self.itemDict["2"] = self.nsamples
+        self.itemDict["3"] = self.vertical_resulution
+        self.itemDict["4"] = self.sampling_rate
+        self.itemDict["5"] = self.offsets
+        self.itemDict["6"] = self.TTT
+        self.itemDict["7"] = self.SIC
+    
+    def __getitem__(self, index):
+        return self.itemDict[str(int(index))]
+        
 def daq_dgz_full2header(bank, verbose=False):
     # v0.1 full PMT recostruction
     import numpy as np
@@ -169,11 +202,12 @@ def daq_dgz_full2header(bank, verbose=False):
     number_events       = np.empty([nboard], dtype=int)
     vertical_resulution = np.empty([nboard], dtype=int)
     sampling_rate       = np.empty([nboard], dtype=int)
-    cannaels_offset_a   = []
-    cannaels_ttt_a      = []
+    channels_offset     = []
+    channels_ttt        = []
+    channels_SIC        = []
     if verbose: print("Number of board: {:d}".format(nboard))
     ich=0
-    for iboard in range(nboard):
+    for iboard in range(nboard): ######### cicle over the boards
         ich+=1
         name_board[iboard]          = bank.data[ich]
         ich+=1  
@@ -191,44 +225,57 @@ def daq_dgz_full2header(bank, verbose=False):
             print ("board: {:d}, name_board: {:d}, number_samples: {:d}, number_channels: {:d}, number_events: {:d}, vertical_resulution: {:d}, sampling_rate: {:d}".format( 
                    iboard, name_board[iboard], number_samples[iboard], number_channels[iboard], number_events[iboard], vertical_resulution[iboard], sampling_rate[iboard]))
         
-        cannaels_offset = np.empty([number_channels[iboard]], dtype=int)
+        ######### Channels offset reading:
+        channels_offset_tmp = np.empty([number_channels[iboard]], dtype=int)
         for ichannels in range(number_channels[iboard]):
             ich+=1
-            cannaels_offset[ichannels] = bank.data[ich]
-            #print(ich, bank.data[ich])
-        cannaels_offset_a.append(cannaels_offset)
+            channels_offset_tmp[ichannels] = bank.data[ich]
+        if verbose:
+            print ("cannaels_offset: ", channels_offset_tmp, flush=True)
+        channels_offset.append(channels_offset_tmp)
         
-        if verbose:
-            print ("cannaels_offset: ", cannaels_offset)
-
-        ######### expected code to read TTT data
-        # cannaels_ttt = np.empty(number_events[iboard], dtype=int)
-        # for ttt in range(number_events[iboard]):
-        #     ich+=1
-        #     cannaels_ttt[ttt] = bank.data[ich]
-            # print(ich, bank.data[ich])
-            
-        ###### parch for issue in TTT data dimesion  
-        cannaels_ttt = []
-        while (ich+1<full_buffer_size):
+        ######### TTT reading:
+        channels_ttt_tmp = np.empty(number_events[iboard], dtype=int)
+        for ttt in range(number_events[iboard]):
             ich+=1
-            if bank.data[ich] == 1720:
-                ich-=1
-                break
-            else:
-                cannaels_ttt.append(bank.data[ich])
-        cannaels_ttt_a.append(cannaels_ttt)
-        ###############################################
+            channels_ttt_tmp[ttt] = bank.data[ich]
         if verbose:
-            print ("cannaels_ttt: ", cannaels_ttt, len(cannaels_ttt)-number_events[iboard])
-    return number_events, number_channels, number_samples, vertical_resulution, sampling_rate
+            print ("channels_ttt: ", channels_ttt)
+        channels_ttt.append(channels_ttt_tmp)
+        
+        ######### Start Index Cell reading:  
+        if name_board[iboard] == 1742:   
+            channels_SIC_tmp = np.empty(number_events[iboard], dtype=int)
+            for sic in range(number_events[iboard]):
+                ich+=1
+                channels_SIC_tmp[sic] = bank.data[ich]
+            channels_SIC.append(channels_SIC_tmp)
+                
+    full_header = dgtz_header([number_events, number_channels, number_samples, vertical_resulution, 
+                              sampling_rate, channels_offset, channels_ttt, channels_SIC])
+    return full_header
 
-def daq_dgz_full2array(bank, header, verbose=False):
+def daq_dgz_full2array(bank, header, verbose=False, corrected=True, ch_offset=[]):
     waveform_f = []
     data_offset = 0
-    number_events  = header[0][0]
-    number_channels= header[1][0]
-    number_samples = header[2][0]
+    
+    channels_to_correct = 8 # FOR NOW WE CORRECT ONLY 8 CHANNELS
+    
+    ######### Acquiring the "fast digitizer" data 
+    number_events   = header[0][0]
+    number_channels = header[1][0]
+    number_samples  = header[2][0]
+    SIC = header.SIC
+    to_correct=[]
+    
+    if not corrected:
+        for ch in range(channels_to_correct):
+            if ch_offset[ch]<-0.25 and ch_offset[ch]>-0.35:
+                to_correct.append(ch)
+
+        if number_events!=len(SIC[0]):       ## Check if the start index cell passed are right
+            raise myError("Number of events does not match")
+    
     for ievent in range(number_events):       
         for ichannels in range(number_channels):
             if verbose:
@@ -238,9 +285,13 @@ def daq_dgz_full2array(bank, header, verbose=False):
 
             waveform_f.append(bank.data[data_offset:data_offset+number_samples])
             data_offset += number_samples
-    number_events  = header[0][1]
-    number_channels= header[1][1]
-    number_samples = header[2][1]
+    if not corrected:              ## Correcting the wavefoms (only the ones with offset at -0.3 of first 8 channels)
+        waveform_f = correct_waveforms(waveform_f, SIC[0], number_channels, to_correct=to_correct)
+
+    ######### Acquiring the "slow digitizer" data
+    number_events   = header[0][1]
+    number_channels = header[1][1]
+    number_samples  = header[2][1]
     waveform_s = []
     for ievent in range(number_events):       
         for ichannels in range(number_channels):
@@ -455,10 +506,11 @@ def ped_mid(run, path_file='/s3/cygno-data/', path_ped='./ped/', tag = 'LNGS',
         write2root(fileoutm, m_image, id=0, option='recreate')
         write2root(fileouts, s_image, id=0, option='recreate')
         print("DONE OUTPUT maen file: {:s} sigma file: {:s}".format(fileoutm, fileouts))
-        return m_image, s_image  
-#
+        return m_image, s_image
+    
+###
 # log book
-#
+###
 def read_cygno_logbook(sql=True, verbose=False):
     import pandas as pd
     import numpy as np
@@ -504,10 +556,9 @@ def run_info_logbook(run, sql=True, verbose=False):
         print("NO RUN "+str(run)+" found in history")
     return out
 
-#
+###
 # ROOT cygno tool and image tool
-#
-
+###
 def cluster_par(xc, yc, image):
     ph = 0.
     dim = xc.shape[0]
@@ -707,7 +758,116 @@ def get_pmt_w_by_triggers(waveform, header, number_of_w_readed, trigger):
                     pmt_data.append(waveform[offset])
                     offset+=1
     return np.array(pmt_data)
+
+def correct_waveforms(wfs_in, SIC, nChannels=32, path='./', to_correct=list(range(8))):
+    nTriggers=0                                   # for now we are correcting only 8 channels
+
+    if(os.path.exists(path+'table_cell.npy')):
+        table_cell = np.load(path+'table_cell.npy')
+    else: raise myError('table_cell.npy not found')
+    if(os.path.exists(path+'table_nsample.npy')):
+        table_nsample = np.load(path+'table_nsample.npy')
+    else: raise myError('table_nsample.npy not found')
+
+    if len(wfs_in)%nChannels==0:
+        nTriggers=int(len(wfs_in)/nChannels)
+    else: raise myError("Number of waveforms not understood.")
+
+    wfs = np.copy(wfs_in)
+    for trg in range(nTriggers):
+        for ch in range(nChannels):
+            if ch in to_correct:        # correct only the channels that have an offset ~ -0.3 (determined before)
+                indx=trg*nChannels + ch
+                wfs[indx] = np.roll(wfs[indx], SIC[trg])
+                wfs[indx] = wfs[indx] - table_cell[ch]
+                wfs[indx] = np.roll(wfs[indx], -SIC[trg])
+                wfs[indx] = wfs[indx] - table_nsample[ch]
+        ## peak correction, need the channels of a specific trigger (for now 8)
+        schunk=trg*nChannels
+        echunk=(trg+1)*nChannels
+        tmp_wfs=PeakCorrection(wfs[schunk:echunk]) ## it returns an array with the corrected wf of the channels
+        for ch in range(nChannels):
+            if ch in to_correct:
+                indx=trg*nChannels + ch
+                wfs[indx] = tmp_wfs[ch]
+        
+    return wfs
+
+def PeakCorrection(wfs_in, Nch = 8):
+    wfs = np.copy(wfs_in)                        ##list of waveforms
+    sample_size = len(wfs[0])                   ## generalize for eventually slow waveforms. 1024 for normal wfs
+    avgs = []
+    for ch in range(Nch):                       
+        avgs.append(np.mean(wfs[ch]))            ## averages of each channel 
+    for i in range(1, sample_size):
+        offset  = 0
+        offset_plus = 0
+        for ch in range(Nch):                   #for over the channels
+            if i ==1:                           
+                if (wfs[ch][2] - wfs[ch][1])>30:
+                    offset += 1
+                else:
+                    if (wfs[ch][3]-wfs[ch][1])>30 and (wfs[ch][3]-wfs[ch][2])>30:
+                        offset += 1
+            else:
+                if i == (sample_size-1) and (wfs[ch][sample_size-2] - wfs[ch][sample_size-1])>30:
+                    offset+=1
+                else:
+                    if (wfs[ch][i-1]-wfs[ch][i])>30:
+                        if (wfs[ch][i+1] - wfs[ch][i])>30:
+                            offset += 1
+                        elif (i+2)<sample_size-2:
+                            if (wfs[ch][i+2] - wfs[ch][i])>30 and (wfs[ch][i+1] - wfs[ch][i])<5:
+                                offset += 1
+                        else:
+                            if i == (sample_size-2) or (wfs[ch][i+2]-wfs[ch][i])>30:
+                                offset += 1
+                                
+            if i < (sample_size-6) and (avgs[ch] - wfs[ch][i])<-30 and \
+                (avgs[ch] - wfs[ch][i+1])<-30 and \
+                (avgs[ch] - wfs[ch][i+2])<-30 and \
+                (avgs[ch] - wfs[ch][i+3])<-30 and \
+                (avgs[ch] - wfs[ch][i+4])<-30 and \
+                (avgs[ch] - wfs[ch][i+5])<-30:
+                    offset_plus += 1
+        
+        if offset == 8:
+            for ch in range(Nch):
+                if i ==1:
+                    if (wfs[ch][2] - wfs[ch][1])>30:
+                        wfs[ch][0] = wfs[ch][2]
+                        wfs[ch][1] = wfs[ch][2]
+                    else:
+                        wfs[ch][0] = wfs[ch][3]
+                        wfs[ch][1] = wfs[ch][3]
+                        wfs[ch][2] = wfs[ch][3]
+                else:
+                    if i == (sample_size-1):
+                        wfs[ch][sample_size-1] = wfs[ch][sample_size-2]
+                    else:
+                        if (wfs[ch][i+1]-wfs[ch][i])>30:
+                            if (wfs[ch][i+1] - wfs[ch][i])>30:
+                                wfs[ch][i]   =  int((wfs[ch][i+1]+ wfs[ch][i-1])/2)
+
+                            elif (i+2)<sample_size-2:
+                                if (wfs[ch][i+2] - wfs[ch][i])>30 and (wfs[ch][i+1] - wfs[ch][i])<5:
+                                    wfs[ch][i]   =  int((wfs[ch][i+2]+ wfs[ch][i-1])/2)
+                                    wfs[ch][i+1] =  int((wfs[ch][i+2]+ wfs[ch][i-1])/2)
+                        else:
+                            if i == (sample_size-2):
+                                wfs[ch][sample_size-2] = wfs[ch][sample_size-3]
+                                wfs[ch][sample_size-2] = wfs[ch][1023-3]                         
+                            else:
+                                wfs[ch][i]   = int((wfs[ch][i+2]+wfs[ch][i-1])/2)
+                                wfs[ch][i+1] = int((wfs[ch][i+2]+wfs[ch][i-1])/2)
+
+        if offset_plus==8:                                                                      
+            for ch in range(Nch):
+                for m in range(6):
+                    wfs[ch][i+m] = avgs[ch]
     
+    return wfs
+
     
 ####
 # Storage & SQL

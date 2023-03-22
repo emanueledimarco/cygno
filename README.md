@@ -69,7 +69,8 @@ you can also add in your bash (or equivalent) profile
 	export IAM_CLIENT_ID="zzz"
 	export IAM_SERVER=https://iam.cloud.infn.it/
 	unset OIDC_SOCK; unset OIDCD_PID; eval `oidc-keychain`
-	oidc-gen --client-id $IAM_CLIENT_ID --client-secret $IAM_CLIENT_SECRET --rt $REFRESH_TOKEN --manual --issuer $IAM_SERVER --pw-cmd="echo pwd" --redirect-uri="edu.kit.data.oidc-agent:/redirect http://localhost:34429 http://localhost:8080 http://localhost:4242" --scope "iam openid email profile offline_access" infncloud-iam
+	oidc-gen --client-id $IAM_CLIENT_ID --client-secret $IAM_CLIENT_SECRET --rt $REFRESH_TOKEN --manual --issuer $IAM_SERVER --pw-cmd="echo pwd" --redirect-uri="edu.kit.data.oidc-agent:/redirect 
+http://localhost:34429 http://localhost:8080 http://localhost:4242" --scope "iam openid email profile offline_access" infncloud-iam
 	
 to get setup info, type:
 
@@ -109,7 +110,8 @@ example:
       Giovannis-MacBook-Air-2:script mazzitel$ cygno_repo ls cygno-sim -t test
       2021-10-17 10:03:21  test/s3_list.py
 
-Data are also shared in CYGNO CLOUD resources via the CYGNO application: https://notebook.cygno.cloud.infn.it:8888/ (jupyter notebook, python, root and terminal use dodasts/cygno-jupyter:v2.1 image) and availeble via web broser https://minio.cloud.infn.it/
+Data are also shared in CYGNO CLOUD resources via the CYGNO application: https://notebook.cygno.cloud.infn.it:8888/ (jupyter notebook, python, root and terminal use dodasts/cygno-jupyter:v2.1 image) 
+and availeble via web broser https://minio.cloud.infn.it/
       
 ###  *cygno_runs*
 
@@ -164,13 +166,20 @@ tool:
 
 ### files
 
-* 1.0.7 **open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False)**: open/cache MIDAS form cloud in path, return *poiner to file* ([see example](https://github.com/CYGNUS-RD/cygno/blob/main/dev/readMidasFile.ipynb))
+* 1.0.7 **open_mid(run, path='/tmp/',  cloud=True,  tag='LNGS', verbose=False)**: open/cache MIDAS form cloud in path, return *poiner to file* ([see 
+example](https://github.com/CYGNUS-RD/cygno/blob/main/dev/readMidasFile.ipynb))
 * 1.0.7 **daq_cam2array(bank, verbose=False)**: decode daq equipment CAM, return *image (2D array) shape_x_image (int), shape_y_image (int)*
 * (obsolete) daq_dgz2header(bank, verbose=False): decode daq equipment header DGZ, return *number_events (int), number_channels (int), number_samples (int)*
-* 1.0.9 **daq_dgz_full2header(bank, verbose=False)**: decode full daq equipment header DGZ, return *number_events, number_channels, number_samples, vertical_resulution, sampling_rate* (offset and TTT are not returned up to now)
+* 1.0.9 **daq_dgz_full2header(bank, verbose=False)**: decode full daq equipment header DGZ, return *number_events, number_channels, number_samples, vertical_resulution, sampling_rate* (offset and TTT 
+are not returned up to now)
 * (obsolete) daq_dgz2array(bank, header, verbose=False): decode daq equipment data DGZ, return *waveform array of #number_channels * #number_samples dimesion* 
 * 1.0.9 **daq_dgz_full2array(bank, header, verbose=False)**: decode fast an slow daq equipment data DGZ, return *waveform_f, waveform_s*
 * 1.0.8 **daq_slow2array(bank, verbose=False)**: decode daq equipment INPUT
+* 1.0.11 **dgtz_header** new class for the dgtz header variables. It has array-like indexing to preserve retro compatibility
+* 1.0.11 **daq_dgz_full2header(bank, verbose=False)** updated, it returns now the header class with: *number_events, number_channels, number_samples, vertical_resulution, sampling_rate, 
+channels_offset, channels_ttt, channels_SIC*
+* 1.0.11 **daq_dgz_full2array(bank, header, verbose=False, corrected=True, ch_offset=[])** now includes the possibillity of correcting fast DGZ waveforms if they are acquired without the *DRS4 
+Correction*. Only the first 8 channels can be corrected up to now.
 
 ### Storage and SQL
 * 1.0.8 **daq_sql_cennection(verbose=False)**: return SQL connection
@@ -199,7 +208,8 @@ class cfile:
 * read_(f, iTr) - return image array from file poiter
 * pic_(cfile, iTr=0) - return immage array of track iTr from cfile
 * wfm_(cfile, iTr=0, iWf=0) - return amplitude and time of iTr track and iWr waveform from cfile
-* ped_(run, path='./ped/', tag = 'LAB', posix=False, min_image_to_read = 0, max_image_to_read = 0, verbose=False) - cerate (if not exist) root file image of mean and sigma for each pixel and return main and sigma imege of pedestal runs
+* ped_(run, path='./ped/', tag = 'LAB', posix=False, min_image_to_read = 0, max_image_to_read = 0, verbose=False) - cerate (if not exist) root file image of mean and sigma for each pixel and return 
+main and sigma imege of pedestal runs
 
 ### logbook 
 * 1.0.1 **read_cygno_logbook(verbose=False)**:ruturn pandas db old google sheet logbook info
@@ -222,5 +232,8 @@ class cfile:
 * smooth(y, box_pts): return smooted array of box_pts dimesion
 * img_proj(img, vmin, vmax, log=False): retrun plot of image projection
 * 1.0.9 get_pmt_w_by_triggers(waveform, header, number_of_w_readed, trigger) return array of pmt data 0 to number_of_w_readed for a given trigger (int)
+* 1.0.11 **correct_waveforms(wfs_in, SIC, nChannels=32, path='./', to_correct=list(range(8)))**: DSR4 Correction for the fast dgtz. Only the first 8 channels can be corrected for now, returns the 
+waveforms corrected *wfs*
+* 1.0.11 **PeakCorrection(wfs_in, Nch = 8)**: helper for the **correct_waveforms** function, returns the waveforms peak-corrected *wfs*a
 
-NB usefull and primitive UNIX and SQL function are available in the library https://github.com/CYGNUS-RD/cygno/blob/main/cygno/cmd.py 
+NB usefull and primitive UNIX and SQL function are available in the library https://github.com/CYGNUS-RD/cygno/blob/main/cygno/cmd.py

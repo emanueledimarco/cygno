@@ -22,12 +22,35 @@
 __version__ = '1.0.1'
 __all__     = ["cmd", "his", "s3"]
 
+
 import numpy as np
 import glob, os
 import re
 import sys
 from cygno import s3
 from cygno import cmd
+
+__path__ = os.path.dirname(os.path.realpath(__file__))+'/'
+## IMPORTING THE CORRECTION TABLES FOR PMT WAVEFORM CORRECTION
+__table_path__ = __path__ + 'pmt_correction_tables/'
+# LNGS
+if(os.path.exists(__table_path__+'table_cell_LNGS.npy')):
+    __table_cell_LNGS__ = np.load(__table_path__+'table_cell_LNGS.npy')
+else: raise myError('table_cell.npy not found')
+    
+if(os.path.exists(__table_path__+'table_nsample_LNGS.npy')):
+    __table_nsample_LNGS__ = np.load(__table_path__+'table_nsample_LNGS.npy')
+else: raise myError('table_nsample.npy not found')
+# LNF
+# if(os.path.exists(__table_path__+'table_cell_LNF.npy')):   ### NOT PRESENT YES
+#     __table_cell_LNF__ = np.load(__table_path__'table_cell_LNF.npy')
+# else: raise myError('table_cell.npy not found')
+# if(os.path.exists(__table_path__+'table_nsample_LNF.npy')):
+#     __table_nsample_LNF__ = np.load(__table_path__+'table_nsample_LNF.npy')
+# else: raise myError('table_nsample.npy not found')
+
+
+
 
 class myError(Exception):
     pass
@@ -255,11 +278,11 @@ def daq_dgz_full2header(bank, verbose=False):
                               sampling_rate, channels_offset, channels_ttt, channels_SIC])
     return full_header
 
-def daq_dgz_full2array(bank, header, verbose=False, corrected=True, ch_offset=[]):
+def daq_dgz_full2array(bank, header, verbose=False, corrected=True, ch_offset=[], tag='LNGS'):
     waveform_f = []
     data_offset = 0
     
-    channels_to_correct = 8 # FOR NOW WE CORRECT ONLY 8 CHANNELS
+    channels_to_correct = 8 # FOR NOW WE CORRECT ONLY THE FIRST 8 CHANNELS
     
     ######### Acquiring the "fast digitizer" data 
     number_events   = header[0][0]
@@ -272,9 +295,10 @@ def daq_dgz_full2array(bank, header, verbose=False, corrected=True, ch_offset=[]
         for ch in range(channels_to_correct):
             if ch_offset[ch]<-0.25 and ch_offset[ch]>-0.35:
                 to_correct.append(ch)
-
+    
         if number_events!=len(SIC[0]):       ## Check if the start index cell passed are right
             raise myError("Number of events does not match")
+#     print('COSA CORREGGO:', to_correct)
     
     for ievent in range(number_events):       
         for ichannels in range(number_channels):
@@ -286,7 +310,7 @@ def daq_dgz_full2array(bank, header, verbose=False, corrected=True, ch_offset=[]
             waveform_f.append(bank.data[data_offset:data_offset+number_samples])
             data_offset += number_samples
     if not corrected:              ## Correcting the wavefoms (only the ones with offset at -0.3 of first 8 channels)
-        waveform_f = correct_waveforms(waveform_f, SIC[0], number_channels, to_correct=to_correct)
+        waveform_f = correct_waveforms(waveform_f, SIC[0], number_channels, to_correct=to_correct, tag)
 
     ######### Acquiring the "slow digitizer" data
     number_events   = header[0][1]
@@ -759,20 +783,21 @@ def get_pmt_w_by_triggers(waveform, header, number_of_w_readed, trigger):
                     offset+=1
     return np.array(pmt_data)
 
-def correct_waveforms(wfs_in, SIC, nChannels=32, path='./', to_correct=list(range(8))):
+def correct_waveforms(wfs_in, SIC, nChannels=32, to_correct=list(range(8)), tag='LNGS'):
     nTriggers=0                                   # for now we are correcting only 8 channels
-
-    if(os.path.exists(path+'table_cell.npy')):
-        table_cell = np.load(path+'table_cell.npy')
-    else: raise myError('table_cell.npy not found')
-    if(os.path.exists(path+'table_nsample.npy')):
-        table_nsample = np.load(path+'table_nsample.npy')
-    else: raise myError('table_nsample.npy not found')
 
     if len(wfs_in)%nChannels==0:
         nTriggers=int(len(wfs_in)/nChannels)
     else: raise myError("Number of waveforms not understood.")
 
+    if tag=='LNGS:
+        table_cell = __table_cell_LNGS__
+        table_nsample = __table_nsample_LNGS__
+    elif tag=='LNF':
+        table_cell = __table_cell_LNF__
+        table_nsample = __table_nsample_LNF__
+    else: raise myError("Tag not understood.")
+        
     wfs = np.copy(wfs_in)
     for trg in range(nTriggers):
         for ch in range(nChannels):
@@ -803,6 +828,7 @@ def PeakCorrection(wfs_in, Nch = 8):
         offset  = 0
         offset_plus = 0
         for ch in range(Nch):                   #for over the channels
+#             print('Stampo i canali', ch)
             if i ==1:                           
                 if (wfs[ch][2] - wfs[ch][1])>30:
                     offset += 1

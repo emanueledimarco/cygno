@@ -30,6 +30,9 @@ import sys
 from cygno import s3
 from cygno import cmd
 
+class myError(Exception):
+    pass
+
 __path__ = os.path.dirname(os.path.realpath(__file__))+'/'
 ## IMPORTING THE CORRECTION TABLES FOR PMT WAVEFORM CORRECTION
 __table_path__ = __path__ + 'pmt_correction_tables/'
@@ -52,8 +55,7 @@ else: raise myError('table_nsample.npy not found')
 
 
 
-class myError(Exception):
-    pass
+
 
 #
 # CYGNO py ROOT Tools

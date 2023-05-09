@@ -790,7 +790,7 @@ def correct_waveforms(wfs_in, SIC, nChannels=32, to_correct=list(range(8)), tag=
         nTriggers=int(len(wfs_in)/nChannels)
     else: raise myError("Number of waveforms not understood.")
 
-    if tag=='LNGS:
+    if tag=='LNGS':
         table_cell = __table_cell_LNGS__
         table_nsample = __table_nsample_LNGS__
     elif tag=='LNF':

@@ -310,7 +310,7 @@ def daq_dgz_full2array(bank, header, verbose=False, corrected=True, ch_offset=[]
             waveform_f.append(bank.data[data_offset:data_offset+number_samples])
             data_offset += number_samples
     if not corrected:              ## Correcting the wavefoms (only the ones with offset at -0.3 of first 8 channels)
-        waveform_f = correct_waveforms(waveform_f, SIC[0], number_channels, to_correct=to_correct, tag)
+        waveform_f = correct_waveforms(waveform_f, SIC[0], number_channels, to_correct=to_correct, tag=tag)
 
     ######### Acquiring the "slow digitizer" data
     number_events   = header[0][1]

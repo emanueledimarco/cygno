@@ -259,7 +259,7 @@ def obj_rm(filename, tag, bucket='cygno-sim', session="infncloud-iam", verbose=F
             return False
 
         except botocore.exceptions.ClientError:
-            print('No file with this'+filename+'was found on the cloud')
+            print('No file with this '+filename+' was found on the cloud')
             return False
         try:
             object_in = key+filename

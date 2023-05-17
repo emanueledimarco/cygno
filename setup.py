@@ -11,7 +11,10 @@ setup(
     description='Cygno Experiment Python Packge',            # short description
     url='https://github.com/CYGNUS-RD/cygno',                # package URL
     packages=find_packages(),
-    package_data={'cygno': ['./pmt_correction_tables/table_cell_LNGS.npy', './pmt_correction_tables/table_nsample_LNGS.npy']},
+    package_data={'cygno': ['./pmt_correction_tables/table_cell_LNGS.npy',
+                            './pmt_correction_tables/table_nsample_LNGS.npy',
+                            './pmt_correction_tables/table_cell_LNF.npy',
+                            './pmt_correction_tables/table_nsample_LNF.npy']},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache2 License",

@@ -39,18 +39,18 @@ __table_path__ = __path__ + 'pmt_correction_tables/'
 # LNGS
 if(os.path.exists(__table_path__+'table_cell_LNGS.npy')):
     __table_cell_LNGS__ = np.load(__table_path__+'table_cell_LNGS.npy')
-else: raise myError('table_cell.npy not found')
+else: raise myError('table_cell_LNGS.npy not found')
     
 if(os.path.exists(__table_path__+'table_nsample_LNGS.npy')):
     __table_nsample_LNGS__ = np.load(__table_path__+'table_nsample_LNGS.npy')
-else: raise myError('table_nsample.npy not found')
+else: raise myError('table_nsample_LNGS.npy not found')
 # LNF
-# if(os.path.exists(__table_path__+'table_cell_LNF.npy')):   ### NOT PRESENT YES
-#     __table_cell_LNF__ = np.load(__table_path__'table_cell_LNF.npy')
-# else: raise myError('table_cell.npy not found')
-# if(os.path.exists(__table_path__+'table_nsample_LNF.npy')):
-#     __table_nsample_LNF__ = np.load(__table_path__+'table_nsample_LNF.npy')
-# else: raise myError('table_nsample.npy not found')
+if(os.path.exists(__table_path__+'table_cell_LNF.npy')):   ### NOT PRESENT YES
+    __table_cell_LNF__ = np.load(__table_path__+'table_cell_LNF.npy')
+else: raise myError('table_cell_LNF.npy not found')
+if(os.path.exists(__table_path__+'table_nsample_LNF.npy')):
+    __table_nsample_LNF__ = np.load(__table_path__+'table_nsample_LNF.npy')
+else: raise myError('table_nsample_LNF.npy not found')
 
 
 
@@ -300,7 +300,6 @@ def daq_dgz_full2array(bank, header, verbose=False, corrected=True, ch_offset=[]
     
         if number_events!=len(SIC[0]):       ## Check if the start index cell passed are right
             raise myError("Number of events does not match")
-#     print('COSA CORREGGO:', to_correct)
     
     for ievent in range(number_events):       
         for ichannels in range(number_channels):
@@ -830,7 +829,6 @@ def PeakCorrection(wfs_in, Nch = 8):
         offset  = 0
         offset_plus = 0
         for ch in range(Nch):                   #for over the channels
-#             print('Stampo i canali', ch)
             if i ==1:                           
                 if (wfs[ch][2] - wfs[ch][1])>30:
                     offset += 1

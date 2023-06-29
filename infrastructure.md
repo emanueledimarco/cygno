@@ -68,6 +68,11 @@ Two VM offer acces to cloud infrastrucure via web services based on jupyter note
 * the web inteface offer the possibility to run a specific software configuration. In general:
   * tag [dodas](https://github.com/DODAS-TS/dodas-docker-images) realises are the official one and approved by INFN
   * tag [gmazzitelli](https://github.com/gmazzitelli/dodas-docker-images) are realisesed fork of official project under [development](https://github.com/gmazzitelli/cloud_docker_dev) and test
+### Tag v1.0.20 ###
+  - cygno lib v14 (PMT readout)
+  - lecroyparser 1.4.2
+### Tag v1.0.19 ###
+  - cygno lib v10 (PMT readout)
 ### Tag v1.0.18 ###
   - cygno lib v9 (PMT readout)
 ### Tag v1.0.17 ###

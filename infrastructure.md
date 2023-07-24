@@ -105,5 +105,5 @@ Two VM offer acces to cloud infrastrucure via web services based on jupyter note
   * **/jupyter-workspace/private/**: working directory; this access to a local file system in case of cloud fault data can be lost (from v17 this foleder is atomaticaly backuped in **/jupyter-workspace/cloud-storage/USERNAME/private**, safe and always reachbele by [MINIO](https://minio.cloud.infn.it/))
   * **/jupyter-workspace/shared/**: shared working directory on lacal system
 
-* it's strogly sujest to develop and run your code from **/jupyter-workspace/private** use private folder to develop and store your code
+* it's strogly sujest to develop and run your code from **/jupyter-workspace/private** use private folder to develop and store your code NOT DATA or OUTPUTs 
 * all paths to exploit installed softwares, and condor queues since realese v17, are configured by dafault. A personal setup can be configured editing the file **/jupyter-workspace/cloud-storage/USERNAME/.bashrc** (example git personal config)

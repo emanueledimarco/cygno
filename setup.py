@@ -28,12 +28,6 @@ setup(
     'pandas',
     'requests',
     'matplotlib',
-    'boto3',
-    'botocore',
-    'boto3sts',
     'tqdm'
-    ],
-    dependency_links=[
-        'git+https://github.com/DODAS-TS/boto3sts.git#egg=boto3sts'  # Link with version at the end
     ]
 )

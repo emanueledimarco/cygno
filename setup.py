@@ -7,10 +7,14 @@ setup(
     name='cygno',                                            # package name
     author="Giovanni Mazzitelli",
     author_email="giovanni.mazzitelli@lnf.infn.it",
-    version='1.0.6',                                         # version
+    version='1.0.14',                                         # version
     description='Cygno Experiment Python Packge',            # short description
-    url='https://github.com/gmazzitelli/cygno_repo',         # package URL
+    url='https://github.com/CYGNUS-RD/cygno',                # package URL
     packages=find_packages(),
+    package_data={'cygno': ['./pmt_correction_tables/table_cell_LNGS.npy',
+                            './pmt_correction_tables/table_nsample_LNGS.npy',
+                            './pmt_correction_tables/table_cell_LNF.npy',
+                            './pmt_correction_tables/table_nsample_LNF.npy']},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache2 License",
@@ -22,10 +26,14 @@ setup(
     install_requires=[
     'requests',
     'pandas',
-    'botocore',
     'requests',
     'matplotlib',
-#    'root_numpy',
+    'boto3',
+    'botocore',
+    'boto3sts',
     'tqdm'
-   ]
+    ],
+    dependency_links=[
+        'git+https://github.com/DODAS-TS/boto3sts.git#egg=boto3sts'  # Link with version at the end
+    ]
 )

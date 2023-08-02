@@ -14,6 +14,8 @@ import ROOT
 import os
 from root_numpy import array2hist
 
+DEFAULT_PMT_VALUE   = 5
+
 def main(run, path, verbose=False):
     mfile = cy.open_mid(int(run), path=path, cloud=True, tag='TMP', verbose=verbose)
     outname = path+'histograms_Run{:05d}.root'.format(int(run))
@@ -39,9 +41,12 @@ def main(run, path, verbose=False):
 
         for bank_name, bank in event.banks.items():
             if bank_name=='DGH0': # PMTs wavform 
-                header = cy.daq_dgz2header(bank)
-                print (header)
-                waveform = cy.daq_dgz2array(event.banks['DIG0'], header)
+                waveform_header = cy.daq_dgz2header(bank)
+                waveform = cy.daq_dgz2array(event.banks['DIG0'], waveform_header)
+                lenw = waveform_header[2]
+                for ipmt in range(DEFAULT_PMT_VALUE):
+                    # save all in root file
+                    
             if bank_name=='CAM0': # CAM image
                 if event_number % 10 == 0: print("transferring image ",event_number)
                 image, _, _ = cy.daq_cam2array(bank)

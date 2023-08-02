@@ -67,3 +67,88 @@ def cache_file(url, cachedir='/tmp/', verbose=False):
         if verbose: sys.stderr.write('file '+tmpname+' cached')
         
     return tmpname
+
+# SQL and File storage
+
+def file_as_bytes(file):
+    with file:
+        return file.read()
+    
+def file_md5sum(file):
+    import hashlib
+    try:
+        return hashlib.md5(file_as_bytes(open(file, 'rb'))).hexdigest()
+    except:
+        print ("md5sum error", file)
+        return False
+
+def md5sum_file(filein):
+    import subprocess
+    command = '/bin/md5sum '+ filein
+    status, output = subprocess.getstatusoutput(command)
+    if status:
+        out = False
+    else:
+        out = output.split(" ")[0]
+    return out
+    
+    
+def push_panda_table_sql(connection, table_name, df):
+    
+    mycursor=connection.cursor()
+    mycursor.execute("SHOW TABLES LIKE '"+table_name+"'")
+    result = mycursor.fetchone()
+    if not result:
+        cols = "`,`".join([str(i) for i in df.columns.tolist()])
+        db_to_crete = "CREATE TABLE `"+table_name+"` ("+' '.join(["`"+x+"` REAL," for x in df.columns.tolist()])[:-1]+")"
+        print ("[Table {:s} created into SQL Server]".format(table_name))
+        mycursor = connection.cursor()
+        mycursor.execute(db_to_crete)
+
+    cols = "`,`".join([str(i) for i in df.columns.tolist()])
+
+    for i,row in df.iterrows():
+        sql = "INSERT INTO `"+table_name+"` (`" +cols + "`) VALUES (" + "%s,"*(len(row)-1) + "%s)"
+        mycursor.execute(sql, tuple(row.astype(str)))
+        connection.commit()
+
+    mycursor.close()
+
+    
+def update_sql_value(connection, table_name, row_element, row_element_condition, 
+                     colum_element, value, verbose=False):
+    if isinstance(value, str):
+        svalue="\""+value+"\""
+    else:
+        svalue=str(value)
+    if isinstance(row_element_condition, str):
+        scondition="\""+row_element_condition+"\""
+    else:
+        scondition=str(row_element_condition)
+    sql = "UPDATE `"+table_name+"` SET `"+colum_element+"` = "+ \
+    svalue+" WHERE `"+row_element+"` = "+scondition+";"
+    if verbose: print(sql)
+    try:
+        mycursor = connection.cursor()
+        mycursor.execute(sql)
+        connection.commit()
+        if verbose: print(mycursor.rowcount, "Update done")
+        mycursor.close()
+        return 0
+    except:
+        return -2
+   
+def read_sql_value(connection, table_name, row_element, row_element_condition, 
+                     colum_element, verbose=False):
+    sql = "SELECT `"+colum_element+"` FROM `"+table_name+"` WHERE `"+row_element+"` = "+row_element_condition+";"
+    #SELECT `storage_tape_status` FROM `Runlog` WHERE `run_number` = 1024;
+    if verbose: print(sql)
+    try:
+        mycursor = connection.cursor()
+        mycursor.execute(sql)
+        value = mycursor.fetchone()
+        if verbose: print(mycursor.rowcount, "Update done")
+        mycursor.close()
+        return value[0]
+    except:
+        return -2
